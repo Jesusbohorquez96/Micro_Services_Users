@@ -22,6 +22,8 @@ public class ValidationConstants {
     public static final String NAME = "name";
     public static final String AUX = "aux_bodega";
     public static final String CUSTOMER = "Customer";
+    public static final String ADMIN = "Admin";
+    public static final String USER = "User successfully deleted";
 
 
     private ValidationConstants() {

@@ -77,11 +77,6 @@ public class UserJpaAdapter implements UserPersistencePort {
     }
 
     @Override
-    public boolean existsByIdentityDocument(Long identityDocument) {
-        return false;
-    }
-
-    @Override
     public Page<User> findAllUser(Pageable pageable) {
         return userRepository.findAll(pageable).map(userEntityMapper::toUser);
     }

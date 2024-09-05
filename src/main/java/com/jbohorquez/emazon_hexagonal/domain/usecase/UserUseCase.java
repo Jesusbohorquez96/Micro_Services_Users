@@ -1,6 +1,5 @@
 package com.jbohorquez.emazon_hexagonal.domain.usecase;
 
-import com.jbohorquez.emazon_hexagonal.constants.ValidationConstants;
 import com.jbohorquez.emazon_hexagonal.domain.api.IUserServicePort;
 import com.jbohorquez.emazon_hexagonal.domain.model.User;
 import com.jbohorquez.emazon_hexagonal.domain.spi.UserPersistencePort;
@@ -32,17 +31,10 @@ public abstract class UserUseCase implements IUserServicePort {
     }
 
     @Override
-    public void saveUser(User user) {
-        final String AUX = ValidationConstants.AUX;
-        final String CUSTOMER = ValidationConstants.CUSTOMER;
-        System.out.println("UserUseCase.saveUser"+ user.getRole());
-        if (!AUX.equals(user.getRole()) && !CUSTOMER.equals(user.getRole())) {
-            throw new IllegalArgumentException("Invalid role. Must be either 'aux_bodega' or 'customer'.");
-        }
-        System.out.println("UserUseCase.saveUser" + user.getRole());
+    public void saveInUser(User user) {
+        // Encriptar la contraseña antes de guardar
         String encryptedPassword = passwordEncoder.encode(user.getPassword());
         user.setPassword(encryptedPassword);
-
         userPersistencePort.saveUser(user);
     }
 

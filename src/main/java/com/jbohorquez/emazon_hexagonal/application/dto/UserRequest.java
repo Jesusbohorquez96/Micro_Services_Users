@@ -1,7 +1,6 @@
 package com.jbohorquez.emazon_hexagonal.application.dto;
 
 import com.jbohorquez.emazon_hexagonal.application.validation.Adult;
-import com.jbohorquez.emazon_hexagonal.application.validation.UniqueIdentityDocument;
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
@@ -24,7 +23,6 @@ public class UserRequest {
 
     @NotNull(message = "Identity document is required")
     @Digits(integer = MAX_DOCUMENT, fraction = ZERO, message = "Identity document must be numeric and cannot contain decimals")
-    @UniqueIdentityDocument(message = "Identity document already exists")
     private Long identityDocument;
 
     @NotBlank(message = "Phone number is required")

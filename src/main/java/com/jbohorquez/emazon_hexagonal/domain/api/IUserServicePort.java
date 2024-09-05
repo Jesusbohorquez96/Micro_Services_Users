@@ -9,7 +9,7 @@ import java.util.Optional;
 
 public interface IUserServicePort {
 
-    void saveUser(User user);
+    void saveInUser(User user);
 
     List<User> getAllUser();
 
