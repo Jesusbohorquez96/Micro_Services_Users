@@ -21,10 +21,11 @@ public class ValidationConstants {
     public static final String PASSWORD = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=!]).{8,}$";
     public static final String NAME = "name";
     public static final String AUX = "aux_bodega";
-    public static final String CUSTOMER = "Customer";
-    public static final String ADMIN = "Admin";
+    public static final String CUSTOMER = "customer";
+    public static final String ADMIN = "admin";
     public static final String USER = "User successfully deleted";
-
+    public static final String PRIVATE = "294A404E635266556A586E327235753878214125442A472D4B6150645367566B";
+    public static final long TIME = 1000 * 60 * 60 * 24;
 
     private ValidationConstants() {
         throw new IllegalStateException("Utility class");

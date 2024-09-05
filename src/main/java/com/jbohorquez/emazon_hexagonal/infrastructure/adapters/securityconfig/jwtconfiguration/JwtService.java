@@ -7,7 +7,6 @@ import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import io.jsonwebtoken.security.SignatureException;
-//import org.jetbrains.annotations.NotNull;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
@@ -18,9 +17,12 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
 
+import static com.jbohorquez.emazon_hexagonal.constants.ValidationConstants.PRIVATE;
+import static com.jbohorquez.emazon_hexagonal.constants.ValidationConstants.TIME;
+
 @Service
 public class JwtService {
-    private static final String SECRET_KEY = "294A404E635266556A586E327235753878214125442A472D4B6150645367566B";
+    private static final String SECRET_KEY = PRIVATE;
 
     public String getToken(UserEntity user){
         return generateToken(new HashMap<>(),user);
@@ -36,7 +38,7 @@ public class JwtService {
                 .setClaims(extraClaims)
                 .setSubject(userDetails.getEmail())
                 .setIssuedAt(new Date(System.currentTimeMillis()))
-                .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 *60* 24))
+                .setExpiration(new Date(System.currentTimeMillis() + TIME))
                 .signWith(getSignInKey(), SignatureAlgorithm.HS256)
                 .compact();
     }
@@ -67,7 +69,6 @@ public class JwtService {
         return (username.equals(userDetails.getUsername()));
     }
 
-
     private Claims extractAllClaims(String token) throws SignatureException {
         try {
             return Jwts
@@ -81,9 +82,5 @@ public class JwtService {
             return Jwts.claims();
         }
     }
-
-
-
-
 }
 

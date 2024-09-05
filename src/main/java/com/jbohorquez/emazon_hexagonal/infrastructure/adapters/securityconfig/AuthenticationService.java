@@ -12,11 +12,14 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+
 import static com.jbohorquez.emazon_hexagonal.constants.ValidationConstants.AUX;
 
 @Service
 @RequiredArgsConstructor
 public class AuthenticationService {
+
     private final IUserRepository repository;
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
@@ -40,17 +43,13 @@ public class AuthenticationService {
     public AuthenticationResponse register(RegisterRequest registerRequest) {
         UserEntity user = UserEntity.builder().name(registerRequest.getName())
                 .lastName(registerRequest.getLastName())
-                .id(registerRequest.getId())
+                .identityDocument(Long.parseLong(registerRequest.getIdDocument()))
+                .phone(registerRequest.getPhone())
+                .birthdate(LocalDate.parse(registerRequest.getBirthdate()))
                 .password(passwordEncoder.encode(registerRequest.getPassword()))
                 .email(registerRequest.getEmail())
                 .role(AUX).build();
 
-        repository.save(user);
-
         return AuthenticationResponse.builder().token(jwtService.getToken(user)).build();
     }
-
-
-
-
 }

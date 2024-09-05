@@ -1,7 +1,5 @@
 package com.jbohorquez.emazon_hexagonal.infrastructure.adapters.securityconfig;
 
-
-
 import com.jbohorquez.emazon_hexagonal.infrastructure.output.jpa.repository.IUserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -41,14 +39,8 @@ public class BeanConfiguration {
                 .orElseThrow(() -> new UsernameNotFoundException("User not found"));
     }
 
-
     @Bean
     public PasswordEncoder encoder() {
         return new BCryptPasswordEncoder();
     }
-
-
-
-
-
 }

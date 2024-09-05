@@ -1,7 +1,5 @@
 package com.jbohorquez.emazon_hexagonal.infrastructure.adapters.securityconfig;
 
-
-
 import com.jbohorquez.emazon_hexagonal.infrastructure.adapters.securityconfig.jwtconfiguration.JwtAuthenticationFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -21,7 +19,6 @@ public class ConfigFilter {
     private final AuthenticationProvider authenticationProvider;
     private final JwtAuthenticationFilter jwtAuthFilter;
 
-
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 
@@ -40,6 +37,4 @@ public class ConfigFilter {
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();
     }
-
-
 }
