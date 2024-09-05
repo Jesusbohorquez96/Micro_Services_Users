@@ -44,6 +44,6 @@ public class UserRequest {
     )
     private String password;
 
-    @NotBlank(message = "Role is required")
-    private String role;
+    @NotNull(message = "Rol is required")
+    private Long rol;
 }

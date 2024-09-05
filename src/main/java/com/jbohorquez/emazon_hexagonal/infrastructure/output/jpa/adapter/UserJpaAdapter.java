@@ -26,6 +26,7 @@ public class UserJpaAdapter implements UserPersistencePort {
 
     @Override
     public void saveUser(User user) {
+
         //validate that a brand with the same name does not exist
         if (userRepository.findByName(user.getName()).isPresent()) {
             throw new AlreadyExistsException();

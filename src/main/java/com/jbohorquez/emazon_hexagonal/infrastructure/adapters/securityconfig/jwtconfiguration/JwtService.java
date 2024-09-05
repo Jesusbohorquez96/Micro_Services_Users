@@ -7,7 +7,6 @@ import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import io.jsonwebtoken.security.SignatureException;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import javax.validation.constraints.NotNull;
@@ -59,14 +58,14 @@ public class JwtService {
 
     public String generate(UserEntity userDetails) {
         Map<String, Object> claims = new HashMap<>();
-        claims.put("role", userDetails.getRole());
+        claims.put("rol", userDetails.getRol().getName());
         claims.put("id", userDetails.getId());
         return generateToken(claims, userDetails);
     }
 
-    public boolean isTokenValid(String token, UserDetails userDetails) {
+    public boolean isTokenValid(String token, UserEntity userDetails) {
         final String username = extractUsername(token);
-        return (username.equals(userDetails.getUsername()));
+        return (username.equals(userDetails.getEmail()));
     }
 
     private Claims extractAllClaims(String token) throws SignatureException {

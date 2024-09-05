@@ -1,24 +1,22 @@
 package com.jbohorquez.emazon_hexagonal.infrastructure.output.jpa.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.Size;
 
-import java.util.Set;
+import java.util.List;
 
 import static com.jbohorquez.emazon_hexagonal.constants.ValidationConstants.DESCRIPTION_MAX_LENGTH;
 import static com.jbohorquez.emazon_hexagonal.constants.ValidationConstants.NAME_MAX_LENGTH;
 
 @Entity
-@Table(name = "rol")
+@Table(name = "roles")
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
 @Setter
+@Builder
 public class RolEntity {
 
     @Id
@@ -35,6 +33,6 @@ public class RolEntity {
     @Size(message = "Description is too long", max = DESCRIPTION_MAX_LENGTH)
     private String description;
 
-    @ManyToMany(mappedBy = "roles")
-    private Set<UserEntity> users;
+    @OneToMany(mappedBy = "rol")
+    private List<UserEntity> users;
 }
