@@ -15,7 +15,7 @@ import java.util.List;
 import static com.jbohorquez.emazon_hexagonal.constants.ValidationConstants.*;
 
 @Entity
-@Table(name = "user")
+@Table(name = "users")
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
@@ -54,6 +54,14 @@ public class UserEntity implements UserDetails {
 
     @NotBlank(message = "Role is required")
     private String role;
+
+    @ManyToMany
+    @JoinTable(
+            name = "user_roles",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id")
+    )
+    private List<RolEntity> roles;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
