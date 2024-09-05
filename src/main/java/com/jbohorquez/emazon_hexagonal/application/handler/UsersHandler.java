@@ -39,7 +39,7 @@ public class UsersHandler implements IUsersHandler {
     @Override
     public void saveInUser(UserRequest userRequest) {
         User user = userRequestMapper.toUser(userRequest);
-        userServicePort.saveUser(user);
+        userServicePort.saveInUser(user);
     }
 
     @Override

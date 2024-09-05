@@ -8,7 +8,7 @@ spring:
       additional-paths: src/main/java
 
   datasource:
-    url: jdbc:mysql://localhost:3306/emazon_hexagonal
+    url: jdbc:mysql://localhost:3306/micro_services_users
     username: root
     password:
     driver-class-name: com.mysql.cj.jdbc.Driver
@@ -22,7 +22,7 @@ spring:
     mongodb:
       host: localhost
       port: 27017
-      database: emazon_hexagonal
+      database: micro_services_users
 
 
 appdescription: "Descripción de mi aplicación"
