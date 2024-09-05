@@ -102,7 +102,6 @@ public class UsersRestController {
             @ApiResponse(responseCode = "200", description = "User successfully deleted"),
             @ApiResponse(responseCode = "404", description = "User not found")
     })
-
     @DeleteMapping("/{userId}")
     public ResponseEntity<Void> deleteFromUser(@PathVariable Long userId) {
         usersHandler.deleteFromUser(userId);

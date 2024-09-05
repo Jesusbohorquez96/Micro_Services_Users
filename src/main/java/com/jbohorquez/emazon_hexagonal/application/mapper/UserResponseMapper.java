@@ -20,6 +20,7 @@ public interface UserResponseMapper {
     @Mapping(target = "userBirthdate", source = "birthdate")
     @Mapping(target = "userEmail", source = "email")
     @Mapping(target = "userPassword", source = "password")
+    @Mapping(target = "userRole", source = "role")
 
     UserResponse toResponseList(User user);
 }
