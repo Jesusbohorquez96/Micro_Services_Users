@@ -4,6 +4,7 @@ import com.jbohorquez.emazon_hexagonal.application.dto.AuthenticationRequest;
 import com.jbohorquez.emazon_hexagonal.application.dto.AuthenticationResponse;
 import com.jbohorquez.emazon_hexagonal.application.dto.RegisterRequest;
 import com.jbohorquez.emazon_hexagonal.infrastructure.adapters.securityconfig.jwtconfiguration.JwtService;
+import com.jbohorquez.emazon_hexagonal.infrastructure.output.jpa.entity.RolEntity;
 import com.jbohorquez.emazon_hexagonal.infrastructure.output.jpa.entity.UserEntity;
 import com.jbohorquez.emazon_hexagonal.infrastructure.output.jpa.repository.IUserRepository;
 import lombok.RequiredArgsConstructor;
@@ -12,14 +13,10 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
-
-import static com.jbohorquez.emazon_hexagonal.constants.ValidationConstants.AUX;
 
 @Service
 @RequiredArgsConstructor
 public class AuthenticationService {
-
     private final IUserRepository repository;
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
@@ -41,14 +38,18 @@ public class AuthenticationService {
     }
 
     public AuthenticationResponse register(RegisterRequest registerRequest) {
+        RolEntity rol = RolEntity.builder().id(1L).build();
         UserEntity user = UserEntity.builder().name(registerRequest.getName())
                 .lastName(registerRequest.getLastName())
                 .identityDocument(Long.parseLong(registerRequest.getIdDocument()))
                 .phone(registerRequest.getPhone())
-                .birthdate(LocalDate.parse(registerRequest.getBirthdate()))
+                .birthdate(registerRequest.getBirthdate())
                 .password(passwordEncoder.encode(registerRequest.getPassword()))
                 .email(registerRequest.getEmail())
-                .role(AUX).build();
+                .rol(rol)
+                .build();
+
+        repository.save(user);
 
         return AuthenticationResponse.builder().token(jwtService.getToken(user)).build();
     }

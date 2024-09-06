@@ -14,6 +14,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -71,6 +72,7 @@ public class UsersRestController {
             @ApiResponse(responseCode = "200", description = "User list returned successfully")
     })
     @GetMapping("/")
+    @PreAuthorize("hasAuthority('aux_bodega')")
     public ResponseEntity<List<UserResponse>> getFromUser() {
         return ResponseEntity.ok(usersHandler.getFromUser());
     }

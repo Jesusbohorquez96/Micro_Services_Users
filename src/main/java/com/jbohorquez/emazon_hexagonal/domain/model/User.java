@@ -12,9 +12,9 @@ public class User {
     private LocalDate birthdate;
     private String email;
     private String password;
-    private String role;
+    private String rol;
 
-    public User(String password, String email, LocalDate birthdate, String phone, Long identityDocument, String lastName, String name, Long id, String role) {
+    public User(String password, String email, LocalDate birthdate, String phone, Long identityDocument, String lastName, String name, Long id, String rol) {
         this.password = password;
         this.email = email;
         this.birthdate = birthdate;
@@ -23,7 +23,7 @@ public class User {
         this.lastName = lastName;
         this.name = name;
         this.id = id;
-        this.role = role;
+        this.rol = rol;
     }
 
     public Long getId() {
@@ -90,11 +90,11 @@ public class User {
         this.password = password;
     }
 
-    public String getRole() {
-        return role;
+    public String getRol() {
+        return rol;
     }
 
-    public void setRole(String role) {
-        this.role = role;
+    public void setRol(String rol) {
+        this.rol = rol;
     }
 }

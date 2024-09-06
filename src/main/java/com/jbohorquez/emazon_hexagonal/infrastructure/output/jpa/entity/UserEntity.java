@@ -15,7 +15,7 @@ import java.util.List;
 import static com.jbohorquez.emazon_hexagonal.constants.ValidationConstants.*;
 
 @Entity
-@Table(name = "user")
+@Table(name = "users")
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
@@ -52,12 +52,14 @@ public class UserEntity implements UserDetails {
     @NotBlank(message = "Password is required")
     private String password;
 
-    @NotBlank(message = "Role is required")
-    private String role;
+
+    @ManyToOne
+    @JoinColumn(name = "rol_id")
+    private RolEntity rol;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of(new SimpleGrantedAuthority(role));
+        return List.of(new SimpleGrantedAuthority(rol.getName()));
     }
 
     @Override
