@@ -72,7 +72,6 @@ public class UsersRestController {
             @ApiResponse(responseCode = "200", description = "User list returned successfully")
     })
     @GetMapping("/")
-    @PreAuthorize("hasAuthority('aux_bodega')")
     public ResponseEntity<List<UserResponse>> getFromUser() {
         return ResponseEntity.ok(usersHandler.getFromUser());
     }

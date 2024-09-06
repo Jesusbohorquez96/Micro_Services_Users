@@ -25,7 +25,6 @@ public class BeamConfigurationRol {
     @Bean
     public IRolServicePort rolServicePort() {
         return new RolUseCase(rolPersistencePort()) {
-
         };
     }
 }
