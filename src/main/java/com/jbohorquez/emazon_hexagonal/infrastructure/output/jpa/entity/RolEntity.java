@@ -35,4 +35,7 @@ public class RolEntity {
 
     @OneToMany(mappedBy = "rol")
     private List<UserEntity> users;
+
+    public RolEntity(long l, String roleUser, String userRoleDescription) {
+    }
 }

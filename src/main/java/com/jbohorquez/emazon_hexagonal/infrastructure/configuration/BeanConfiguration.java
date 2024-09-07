@@ -1,4 +1,4 @@
-package com.jbohorquez.emazon_hexagonal.infrastructure.adapters.securityconfig;
+package com.jbohorquez.emazon_hexagonal.infrastructure.configuration;
 
 import com.jbohorquez.emazon_hexagonal.infrastructure.output.jpa.repository.IUserRepository;
 import lombok.RequiredArgsConstructor;

@@ -1,6 +1,7 @@
 package com.jbohorquez.emazon_hexagonal.application.mapper;
 
 import com.jbohorquez.emazon_hexagonal.application.dto.UserResponse;
+import com.jbohorquez.emazon_hexagonal.domain.model.Rol;
 import com.jbohorquez.emazon_hexagonal.domain.model.User;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -20,6 +21,10 @@ public interface UserResponseMapper {
     @Mapping(target = "userBirthdate", source = "birthdate")
     @Mapping(target = "userEmail", source = "email")
     @Mapping(target = "userPassword", source = "password")
-
+    @Mapping(target = "userRol", source = "rol")
     UserResponse toResponseList(User user);
+
+    default String toRol(Rol rol) {
+        return rol.getName();
+    }
 }

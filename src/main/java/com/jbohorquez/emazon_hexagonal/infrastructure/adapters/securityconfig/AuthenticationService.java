@@ -15,12 +15,13 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class AuthenticationService {
+public class AuthenticationService implements IAuthenticationService {
     private final IUserRepository repository;
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
     private final PasswordEncoder passwordEncoder;
 
+    @Override
     public AuthenticationResponse authenticate(AuthenticationRequest request) {
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
@@ -36,11 +37,12 @@ public class AuthenticationService {
                 .build();
     }
 
+    @Override
     public AuthenticationResponse register(RegisterRequest registerRequest) {
         RolEntity rol = RolEntity.builder().id(1L).build();
         UserEntity user = UserEntity.builder().name(registerRequest.getName())
                 .lastName(registerRequest.getLastName())
-                .identityDocument(Long.parseLong(registerRequest.getIdDocument()))
+                .identityDocument(registerRequest.getIdDocument())
                 .phone(registerRequest.getPhone())
                 .birthdate(registerRequest.getBirthdate())
                 .password(passwordEncoder.encode(registerRequest.getPassword()))
@@ -50,6 +52,11 @@ public class AuthenticationService {
 
         repository.save(user);
 
-        return AuthenticationResponse.builder().token(jwtService.getToken(user)).build();
+        user = repository.findByEmail(user.getEmail()).orElseThrow();
+
+        String jwtToken = jwtService.generate(user);
+        return AuthenticationResponse.builder()
+                .token(jwtToken)
+                .build();
     }
 }

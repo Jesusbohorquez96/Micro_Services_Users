@@ -25,5 +25,6 @@ public interface UserPersistencePort {
         Page<User> getUsers(PageRequest pageRequest);
 
         Optional<User> findByEmail(String email);
+
 }
 

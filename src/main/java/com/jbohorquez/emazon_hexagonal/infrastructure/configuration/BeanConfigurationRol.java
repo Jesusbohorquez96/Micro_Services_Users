@@ -12,7 +12,7 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 @RequiredArgsConstructor
-public class BeamConfigurationRol {
+public class BeanConfigurationRol {
 
     private final IRolRepository rolRepository;
     private final RolEntityMapper rolEntityMapper;

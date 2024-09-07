@@ -20,4 +20,7 @@ public class RolRequest {
     @NotBlank(message = "Description cannot be blank")
     @Size(max = DESCRIPTION_MAX_LENGTH, message = "The description must not exceed " + DESCRIPTION_MAX_LENGTH + " characters")
     private String description;
+
+    public RolRequest(String admin, String administratorRole) {
+    }
 }

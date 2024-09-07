@@ -1,7 +1,6 @@
 package com.jbohorquez.emazon_hexagonal.application.handler;
 
-import com.jbohorquez.emazon_hexagonal.application.dto.UserRequest;
-import com.jbohorquez.emazon_hexagonal.application.dto.UserResponse;
+import com.jbohorquez.emazon_hexagonal.application.dto.*;
 import org.springframework.data.domain.Page;
 
 import java.util.List;
@@ -20,5 +19,8 @@ public interface IUsersHandler {
 
     void deleteFromUser(Long userId);
 
-    boolean validateUser(String email, String password);
+    AuthenticationResponse validateUser(AuthenticationRequest authenticationRequest);
+
+    AuthenticationResponse registerUser(RegisterRequest registerRequest);
+
 }

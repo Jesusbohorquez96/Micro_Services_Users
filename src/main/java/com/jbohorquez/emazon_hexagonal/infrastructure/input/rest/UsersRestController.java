@@ -1,11 +1,7 @@
 package com.jbohorquez.emazon_hexagonal.infrastructure.input.rest;
 
-import com.jbohorquez.emazon_hexagonal.application.dto.LoginRequest;
-import com.jbohorquez.emazon_hexagonal.application.dto.UserRequest;
-import com.jbohorquez.emazon_hexagonal.application.dto.UserResponse;
+import com.jbohorquez.emazon_hexagonal.application.dto.*;
 import com.jbohorquez.emazon_hexagonal.application.handler.IUsersHandler;
-import com.jbohorquez.emazon_hexagonal.infrastructure.exception.AllExistsException;
-import com.jbohorquez.emazon_hexagonal.infrastructure.exceptionhandler.ExceptionResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
@@ -14,13 +10,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.Collections;
 import java.util.List;
-import java.util.Map;
 
 import static com.jbohorquez.emazon_hexagonal.constants.ValidationConstants.*;
 
@@ -47,25 +40,6 @@ public class UsersRestController {
         return ResponseEntity.ok(users);
     }
 
-    @Operation(summary = "Save a new user", description = "Saves a new user to the database.")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "201", description = "User created successfully"),
-            @ApiResponse(responseCode = "400", description = "Invalid input data")
-    })
-    @PostMapping("/")
-    public ResponseEntity<Map<String, String>> saveInUser(@Valid @RequestBody UserRequest userRequest) {
-        try {
-            usersHandler.saveInUser(userRequest);
-            return ResponseEntity.status(HttpStatus.CREATED)
-                    .body(Collections.singletonMap("message", ExceptionResponse.SUCCESSFUL_CREATION.getMessage()));
-        } catch (AllExistsException e) {
-            return ResponseEntity.status(HttpStatus.CONFLICT)
-                    .body(Collections.singletonMap("message", ExceptionResponse.INTERNAL_ERROR.getMessage()));
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body(Collections.singletonMap("message", ExceptionResponse.ALREADY_EXISTS.getMessage()));
-        }
-    }
 
     @Operation(summary = "Get all users", description = "Returns a list of all users.")
     @ApiResponses(value = {
@@ -109,19 +83,4 @@ public class UsersRestController {
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 
-    @Operation(summary = "Login", description = "Login to the application.")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Login successful"),
-            @ApiResponse(responseCode = "401", description = "Invalid email or password")
-    })
-    @PostMapping("/login")
-    public ResponseEntity<Map<String, String>> loginUser(@Valid @RequestBody LoginRequest loginRequest) {
-        boolean isValid = usersHandler.validateUser(loginRequest.getEmail(), loginRequest.getPassword());
-        if (isValid) {
-            return ResponseEntity.ok(Collections.singletonMap("message", "Login successful"));
-        } else {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
-                    .body(Collections.singletonMap("message", "Invalid email or password"));
-        }
-    }
 }

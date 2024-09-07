@@ -33,7 +33,7 @@ public class RegisterRequest {
 
     @NotNull(message = "Identity document is required")
     @Digits(integer = INTEGERS, fraction = DECIMALS, message = "Identity document must be numeric and cannot contain decimals")
-    private String idDocument;
+    private Long idDocument;
 
     @NotBlank(message = "Phone number is required")
     @Pattern(regexp = PHONE_NUMBER, message = "Phone number must be a maximum of 13 characters and may include the '+' symbol")
