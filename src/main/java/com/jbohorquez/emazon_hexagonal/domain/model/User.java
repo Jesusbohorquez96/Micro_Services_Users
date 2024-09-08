@@ -33,6 +33,9 @@ public class User {
 
     }
 
+    public User(long l, String john, String doe, String number, String mail, String password, Object o) {
+    }
+
     public Long getId() {
         return id;
     }

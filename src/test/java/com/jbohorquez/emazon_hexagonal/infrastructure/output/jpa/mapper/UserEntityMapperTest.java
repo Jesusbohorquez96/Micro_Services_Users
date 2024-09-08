@@ -25,7 +25,6 @@ public class UserEntityMapperTest {
         user.setName("John");
         user.setLastName("Doe");
         user.setEmail("john.doe@example.com");
-        // Configura más atributos según sea necesario
 
         UserEntity userEntity = userEntityMapper.toEntity(user);
 
@@ -43,7 +42,6 @@ public class UserEntityMapperTest {
         userEntity.setName("Jane");
         userEntity.setLastName("Smith");
         userEntity.setEmail("jane.smith@example.com");
-        // Configura más atributos según sea necesario
 
         User user = userEntityMapper.toUser(userEntity);
 

@@ -23,4 +23,7 @@ public class RolRequest {
 
     public RolRequest(String admin, String administratorRole) {
     }
+
+    public RolRequest() {
+    }
 }

@@ -28,11 +28,9 @@ public class RolJpaAdapter implements RolPersistencePort {
         if (rolRepository.findRolByName(rol.getName()).isPresent()) {
             throw new AlreadyExistsException();
         }
-        //validate your name is shorter than NAME_MAX_LENGTH characters
         if (rol.getName().length() > NAME_MAX_LENGTH) {
             throw new NameTooLongException("Name is too long");
         }
-        //validate if the description is shorter than DESCRIPTION MAX_LENGTH characters
         if (rol.getDescription() == null || rol.getDescription().length() > DESCRIPTION_MAX_LENGTH) {
             throw new DescriptionTooLongException("Description is too long");
         }

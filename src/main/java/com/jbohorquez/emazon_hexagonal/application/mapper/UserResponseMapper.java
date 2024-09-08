@@ -25,6 +25,9 @@ public interface UserResponseMapper {
     UserResponse toResponseList(User user);
 
     default String toRol(Rol rol) {
+        if (rol == null) {
+            return null;
+        }
         return rol.getName();
     }
 }
