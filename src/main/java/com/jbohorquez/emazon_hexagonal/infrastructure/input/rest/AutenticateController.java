@@ -40,7 +40,6 @@ public class AutenticateController {
             @ApiResponse(responseCode = "400", description = "Invalid input data")
     })
     @PostMapping("/register")
-    @PreAuthorize("hasAuthority('admin')")
     public ResponseEntity<AuthenticationResponse> register(@Valid
             @RequestBody RegisterRequest registerRequest
     ) {

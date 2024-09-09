@@ -59,7 +59,7 @@ public class UserEntity implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of(new SimpleGrantedAuthority(rol.getName()));
+        return List.of(new SimpleGrantedAuthority("ROLE_" + rol.getName()));
     }
 
     @Override
