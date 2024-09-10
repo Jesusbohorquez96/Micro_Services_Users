@@ -5,9 +5,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.Sort;
 
 import java.util.Arrays;
 import java.util.List;
@@ -42,17 +39,6 @@ class IUserServicePortTest {
     }
 
     @Test
-    void testGetAllUser() {
-        List<User> users = Arrays.asList(user);
-        when(userServicePort.getAllUser()).thenReturn(users);
-
-        List<User> result = userServicePort.getAllUser();
-        assertNotNull(result);
-        assertEquals(1, result.size());
-        assertEquals("John", result.get(0).getName());
-    }
-
-    @Test
     void testGetUserById() {
         when(userServicePort.getUserById(1L)).thenReturn(user);
 
@@ -74,17 +60,6 @@ class IUserServicePortTest {
         doNothing().when(userServicePort).deleteUser(1L);
         userServicePort.deleteUser(1L);
         verify(userServicePort, times(1)).deleteUser(1L);
-    }
-
-    @Test
-    void testGetUsers() {
-        Page<User> page = new PageImpl<>(Arrays.asList(user));
-        when(userServicePort.getUsers(0, 10, Sort.Direction.ASC)).thenReturn(page);
-
-        Page<User> result = userServicePort.getUsers(0, 10, Sort.Direction.ASC);
-        assertNotNull(result);
-        assertEquals(1, result.getTotalElements());
-        assertEquals("John", result.getContent().get(0).getName());
     }
 
     @Test

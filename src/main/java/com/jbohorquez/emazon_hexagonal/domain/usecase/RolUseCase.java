@@ -19,6 +19,9 @@ public class RolUseCase implements IRolServicePort {
 
     @Override
     public void saveRol(Rol rol) {
+        if (rol.getName() == null || rol.getName().isEmpty()) {
+            throw new IllegalArgumentException(NAME_REQUIRED);
+        }
         if (rol.getName().length() > NAME_MAX_LENGTH) {
             throw new NameTooLongException(NAME_LONG);
         }

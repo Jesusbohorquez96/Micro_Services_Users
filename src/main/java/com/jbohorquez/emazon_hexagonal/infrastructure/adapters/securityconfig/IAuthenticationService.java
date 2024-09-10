@@ -5,6 +5,7 @@ import com.jbohorquez.emazon_hexagonal.application.dto.AuthenticationResponse;
 import com.jbohorquez.emazon_hexagonal.application.dto.RegisterRequest;
 
 public interface IAuthenticationService {
+
     AuthenticationResponse authenticate(AuthenticationRequest request);
 
     AuthenticationResponse register(RegisterRequest registerRequest);

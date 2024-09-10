@@ -41,7 +41,7 @@ public class UsersRestController {
             @ApiResponse(responseCode = "404", description = "User not found")
     })
     @GetMapping("/{id}")
-    @PreAuthorize("hasAnyRole('admin')")
+    @PreAuthorize("hasAnyRole('admin', 'aux_bodega')")
     public ResponseEntity<UserResponse> getFromUser(@PathVariable(name = ID) Long userId) {
         return ResponseEntity.ok(usersHandler.getFromUser(userId));
     }

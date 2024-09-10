@@ -3,7 +3,6 @@ package com.jbohorquez.emazon_hexagonal.constants;
 public class ValidationConstants {
 
     public static final long TIME = 1000 * 60 * 60 * 24;
-    public static final long BUILDER_ID = 1l;
 
     public static final int ZERO = 0;
     public static final int DECIMALS = 2;
@@ -13,23 +12,17 @@ public class ValidationConstants {
     public static final int MAX_DOCUMENT = 20;
     public static final int NAME_MAX_LENGTH = 50;
     public static final int DESCRIPTION_MAX_LENGTH = 90;
+    public static final int MAX_LENGTH = 120;
 
-    public static final String PAGE = "0";
-    public static final String SIZE = "10";
     public static final String ID = "id";
     public static final String ROL = "rol";
     public static final String TO_ROL = "toRol";
     public static final String ROLES = "roles";
     public static final String AUTHORIZATION = "Authorization";
     public static final String BEARER = "Bearer ";
-    public static final String ASC = "asc";
-    public static final String DESC = "desc";
     public static final String PHONE_NUMBER = "^\\+?[0-9]{1,13}$";
     public static final String PASSWORD = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=!]).{8,}$";
     public static final String NAME = "name";
-    public static final String AUX = "aux_bodega";
-    public static final String CUSTOMER = "customer";
-    public static final String ADMIN = "admin";
     public static final String PRIVATE = "294A404E635266556A586E327235753878214125442A472D4B6150645367566B";
 
     public static final String MESSAGE = "message";
@@ -50,7 +43,7 @@ public class ValidationConstants {
     public static final String NAME_LONG = "Name is too long";
     public static final String DESCRIPTION_LONG = "Description is too long";
     public static final String DESCRIPTION_REQUIRED = "Description cannot be blank";
-    public static final String DESCRIPTION_MAX_LENGTH_EXCEEDED = "The description must not exceed 90 characters";
+    public static final String DESCRIPTION_MAX_LENGTH_EXCEEDED = "The description must not exceed 120 characters";
     public static final String USER_MUST_BE_ADULT = "User must be at least 18 years old";
     public static final String USER_NOT_FOUND = "User must be an adult";
     public static final String USER_NOT_FOUND_MESSAGE = "User not found";
@@ -83,10 +76,14 @@ public class ValidationConstants {
     public static final String LICENSE_NAME = "Apache 2.0";
     public static final String LICENSE_URL = "http://springdoc.org";
 
+    public static final String V3_API = "/v3/api-docs/**";
     public static final String SWAGGER_UI = "/swagger-ui.html";
     public static final String SWAGGER_UI_RESOURCES = "/swagger-ui/**";
     public static final String AUTH = "/auth/**";
-    public static final String ALL = "/**";
+    public static final String ALL_API = "/api/**";
+
+    public static final String JSON = "application/json";
+    public static final String ERROR_JWT = "{ \"error\": \"Access denied: Invalid or malformed JWT token\" }";
 
     private ValidationConstants() {
         throw new IllegalStateException("Utility class");

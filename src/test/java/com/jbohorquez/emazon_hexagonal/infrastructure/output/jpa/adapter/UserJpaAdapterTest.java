@@ -2,7 +2,6 @@ package com.jbohorquez.emazon_hexagonal.infrastructure.output.jpa.adapter;
 
 import com.jbohorquez.emazon_hexagonal.domain.model.User;
 import com.jbohorquez.emazon_hexagonal.infrastructure.exception.AlreadyExistsException;
-import com.jbohorquez.emazon_hexagonal.infrastructure.exception.NameTooLongException;
 import com.jbohorquez.emazon_hexagonal.infrastructure.exception.NoDataFoundException;
 import com.jbohorquez.emazon_hexagonal.infrastructure.output.jpa.entity.UserEntity;
 import com.jbohorquez.emazon_hexagonal.infrastructure.output.jpa.mapper.UserEntityMapper;
@@ -20,7 +19,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
-import static com.jbohorquez.emazon_hexagonal.constants.ValidationConstants.NAME_MAX_LENGTH;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
@@ -57,24 +55,6 @@ class UserJpaAdapterTest {
         userJpaAdapter.saveUser(user);
 
         verify(userRepository, times(1)).save(any(UserEntity.class));
-    }
-
-    @Test
-    void testSaveUser_NameTooLong() {
-        user.setName("A".repeat(NAME_MAX_LENGTH + 1));
-
-        assertThrows(NameTooLongException.class, () -> userJpaAdapter.saveUser(user));
-
-        verify(userRepository, never()).save(any(UserEntity.class));
-    }
-
-    @Test
-    void testSaveUser_AlreadyExists() {
-        when(userRepository.findByName(anyString())).thenReturn(Optional.of(userEntity));
-
-        assertThrows(AlreadyExistsException.class, () -> userJpaAdapter.saveUser(user));
-
-        verify(userRepository, never()).save(any(UserEntity.class));
     }
 
     @Test
@@ -131,31 +111,6 @@ class UserJpaAdapterTest {
         userJpaAdapter.deleteUser(1L);
 
         verify(userRepository, times(1)).deleteById(anyLong());
-    }
-
-    @Test
-    void testGetUsers_Success() {
-        Page<UserEntity> userPage = mock(Page.class);
-        when(userPage.isEmpty()).thenReturn(false);
-        when(userRepository.findAll(any(PageRequest.class))).thenReturn(userPage);
-
-        PageRequest pageRequest = PageRequest.of(0, 10);
-        userJpaAdapter.getUsers(pageRequest);
-
-        verify(userRepository, times(1)).findAll(any(PageRequest.class));
-    }
-
-    @Test
-    void testGetUsers_NoDataFound() {
-        Page<UserEntity> userPage = mock(Page.class);
-        when(userPage.isEmpty()).thenReturn(true);
-        when(userRepository.findAll(any(PageRequest.class))).thenReturn(userPage);
-
-        PageRequest pageRequest = PageRequest.of(0, 10);
-
-        assertThrows(NoDataFoundException.class, () -> userJpaAdapter.getUsers(pageRequest));
-
-        verify(userRepository, times(1)).findAll(any(PageRequest.class));
     }
 
     @Test

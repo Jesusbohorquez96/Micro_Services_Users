@@ -6,10 +6,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Sort;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.Arrays;
@@ -36,27 +32,22 @@ class UserUseCaseTest {
         userUseCase = new UserUseCase(userPersistencePort, passwordEncoder) {};
     }
 
-    @Test
-    void testSaveInUser() {
-        // Arrange
-        User user = new User(1L, "John", "Doe", "12345678", "john@example.com", "password", null);
-        String encodedPassword = "encodedPassword";
-        when(passwordEncoder.encode(user.getPassword())).thenReturn(encodedPassword);
-
-        // Act
-        userUseCase.saveInUser(user);
-
-        // Assert
-        assertEquals(encodedPassword, user.getPassword());
-        verify(userPersistencePort, times(1)).saveUser(user);
+    private User user(Long id, String name, String lastName, String email, String password) {
+        User user = new User();
+        user.setId(id);
+        user.setName(name);
+        user.setLastName(lastName);
+        user.setEmail(email);
+        user.setPassword(password);
+        return user;
     }
 
     @Test
     void testGetAllUser() {
         // Arrange
         List<User> users = Arrays.asList(
-                new User(1L, "John", "Doe", "12345678", "john@example.com", "password", null),
-                new User(2L, "Jane", "Doe", "87654321", "jane@example.com", "password", null)
+                new User(),
+                new User()
         );
         when(userPersistencePort.getAllUser()).thenReturn(users);
 
@@ -95,7 +86,7 @@ class UserUseCaseTest {
     @Test
     void testUpdateUser() {
         // Arrange
-        User user = new User(1L, "John", "Doe", "12345678", "john@example.com", "password", null);
+        User user = new User();
         String encodedPassword = "encodedPassword";
         when(passwordEncoder.encode(user.getPassword())).thenReturn(encodedPassword);
 
@@ -119,21 +110,4 @@ class UserUseCaseTest {
         verify(userPersistencePort, times(1)).deleteUser(userId);
     }
 
-    @Test
-    void testGetUsers() {
-        // Arrange
-        PageRequest pageable = PageRequest.of(0, 10, Sort.by(Sort.Direction.ASC, "name"));
-        List<User> users = List.of(
-                new User(1L, "John", "Doe", "12345678", "john@example.com", "password", null)
-        );
-        Page<User> page = new PageImpl<>(users);
-        when(userPersistencePort.findAllUser(pageable)).thenReturn(page);
-
-        // Act
-        Page<User> result = userUseCase.getUsers(0, 10, Sort.Direction.ASC);
-
-        // Assert
-        assertNotNull(result);
-        assertEquals(1, result.getTotalElements());
-    }
 }

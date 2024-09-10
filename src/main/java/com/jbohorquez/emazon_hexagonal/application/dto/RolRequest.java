@@ -18,7 +18,7 @@ public class RolRequest {
     private String name;
 
     @NotBlank(message = DESCRIPTION_REQUIRED)
-    @Size(max = DESCRIPTION_MAX_LENGTH, message = DESCRIPTION_MAX_LENGTH_EXCEEDED)
+    @Size(max = MAX_LENGTH, message = DESCRIPTION_MAX_LENGTH_EXCEEDED)
     private String description;
 
     public RolRequest(String admin, String administratorRole) {

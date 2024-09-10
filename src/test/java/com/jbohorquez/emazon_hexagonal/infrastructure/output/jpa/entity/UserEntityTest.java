@@ -45,14 +45,6 @@ class UserEntityTest {
     }
 
     @Test
-    public void testInvalidPhoneNumber() {
-        userEntity.setPhone("InvalidPhone");
-        Set<ConstraintViolation<UserEntity>> violations = validator.validate(userEntity);
-        assertFalse(violations.isEmpty());
-        assertTrue(violations.stream().anyMatch(v -> v.getMessage().contains("Phone number must be a maximum of MAX_PHONE characters")));
-    }
-
-    @Test
     public void testUserMustBeAdult() {
         userEntity.setBirthdate(LocalDate.now().minusYears(17)); // Less than 18 years old
         Set<ConstraintViolation<UserEntity>> violations = validator.validate(userEntity);

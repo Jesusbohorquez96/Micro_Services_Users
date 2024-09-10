@@ -36,7 +36,7 @@ public class RolesRestController {
             @ApiResponse(responseCode = "400", description = "Invalid request")
     })
     @GetMapping
-    @PreAuthorize("hasAnyRole('admin')")
+    @PreAuthorize("hasAnyRole('admin', 'aux_bodega')")
     public ResponseEntity<List<RolResponse>> getAllRol() {
         List<RolResponse> rol = rolHandler.getAllRol();
         return ResponseEntity.ok(rol);
@@ -48,7 +48,6 @@ public class RolesRestController {
             @ApiResponse(responseCode = "400", description = "Invalid input data")
     })
     @PostMapping("/")
-    @PreAuthorize("hasAnyRole('admin')")
     public ResponseEntity<Map<String, String>> saveInRol(@Valid @RequestBody RolRequest rolRequest) {
         try {
             rolHandler.saveInRol(rolRequest);
@@ -66,7 +65,7 @@ public class RolesRestController {
             @ApiResponse(responseCode = "404", description = "Rol not found")
     })
     @GetMapping("/{rolId}")
-    @PreAuthorize("hasAnyRole('admin')")
+    @PreAuthorize("hasAnyRole('admin', 'aux_bodega')")
     public ResponseEntity<RolResponse> getRolById(@PathVariable (name = "rolId") Long rolId) {
         RolResponse rol = rolHandler.getRolById(rolId);
         return ResponseEntity.ok(rol);

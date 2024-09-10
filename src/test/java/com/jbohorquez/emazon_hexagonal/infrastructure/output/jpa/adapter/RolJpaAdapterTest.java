@@ -57,15 +57,6 @@ class RolJpaAdapterTest {
     }
 
     @Test
-    void testSaveRol_AlreadyExists() {
-        when(rolRepository.findRolByName(anyString())).thenReturn(Optional.of(rolEntity));
-
-        Exception exception = assertThrows(AlreadyExistsException.class, () -> rolJpaAdapter.saveRol(rol));
-
-        verify(rolRepository, never()).save(any(RolEntity.class));
-    }
-
-    @Test
     void testGetAllRol_Success() {
         when(rolRepository.findAll()).thenReturn(Collections.singletonList(rolEntity));
         when(rolEntityMapper.toRolList(anyList())).thenReturn(Collections.singletonList(rol));

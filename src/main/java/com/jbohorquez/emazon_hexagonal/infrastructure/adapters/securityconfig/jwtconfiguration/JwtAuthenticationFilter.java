@@ -1,6 +1,7 @@
 package com.jbohorquez.emazon_hexagonal.infrastructure.adapters.securityconfig.jwtconfiguration;
 
 import com.jbohorquez.emazon_hexagonal.infrastructure.output.jpa.entity.UserEntity;
+import io.jsonwebtoken.MalformedJwtException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.lang.NonNull;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -29,30 +30,36 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                                     @NonNull HttpServletResponse response,
                                     @NonNull FilterChain filterChain)
             throws ServletException, IOException {
-        final String authHeader = request.getHeader(AUTHORIZATION);
-        final String jwt;
-        final String userName;
-        if (authHeader == null || !authHeader.startsWith(BEARER)) {
-            filterChain.doFilter(request, response);
-            return;
-        }
-        jwt = authHeader.substring(SEVEN);
-        userName = jwtService.extractUsername(jwt);
-        if (userName != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-            UserEntity userDetails = (UserEntity) this.userDetailsService.loadUserByUsername(userName);
-            if (jwtService.isTokenValid(jwt, userDetails)) {
-                UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
-                        userDetails,
-                        null,
-                        userDetails.getAuthorities()
-                );
-                authToken.setDetails(
-                        new WebAuthenticationDetailsSource().buildDetails(request)
-                );
-                SecurityContextHolder.getContext().setAuthentication(authToken);
+        try {
+            final String authHeader = request.getHeader(AUTHORIZATION);
+            final String jwt;
+            final String userName;
+            if (authHeader == null || !authHeader.startsWith(BEARER)) {
+                filterChain.doFilter(request, response);
+                return;
             }
+            jwt = authHeader.substring(SEVEN);
+            userName = jwtService.extractUsername(jwt);
+            if (userName != null && SecurityContextHolder.getContext().getAuthentication() == null) {
+                UserEntity userDetails = (UserEntity) this.userDetailsService.loadUserByUsername(userName);
+                if (jwtService.isTokenValid(jwt, userDetails)) {
+                    UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
+                            userDetails,
+                            null,
+                            userDetails.getAuthorities()
+                    );
+                    authToken.setDetails(
+                            new WebAuthenticationDetailsSource().buildDetails(request)
+                    );
+                    SecurityContextHolder.getContext().setAuthentication(authToken);
+                }
+            }
+            filterChain.doFilter(request, response);
+        } catch (MalformedJwtException e) {
+            response.setContentType(JSON);
+            response.setStatus(HttpServletResponse.SC_FORBIDDEN);
+            response.getOutputStream().println(ERROR_JWT);
         }
-        filterChain.doFilter(request, response);
     }
 }
 

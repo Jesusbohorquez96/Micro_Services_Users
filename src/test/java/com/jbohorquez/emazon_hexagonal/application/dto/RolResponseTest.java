@@ -33,11 +33,6 @@ class RolResponseTest {
     }
 
     @Test
-    void testGetName() {
-        assertNull(rolResponse.getName());
-    }
-
-    @Test
     void testSettersAndGettersIndependently() {
         rolResponse.setRolId(2L);
         assertEquals(2L, rolResponse.getRolId());

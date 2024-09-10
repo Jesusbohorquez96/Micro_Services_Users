@@ -7,13 +7,12 @@ import com.jbohorquez.emazon_hexagonal.infrastructure.adapters.securityconfig.jw
 import com.jbohorquez.emazon_hexagonal.infrastructure.output.jpa.entity.RolEntity;
 import com.jbohorquez.emazon_hexagonal.infrastructure.output.jpa.entity.UserEntity;
 import com.jbohorquez.emazon_hexagonal.infrastructure.output.jpa.repository.IUserRepository;
-import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import static com.jbohorquez.emazon_hexagonal.constants.ValidationConstants.BUILDER_ID;
+import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
@@ -41,7 +40,7 @@ public class AuthenticationService implements IAuthenticationService {
 
     @Override
     public AuthenticationResponse register(RegisterRequest registerRequest) {
-        RolEntity rol = RolEntity.builder().id(BUILDER_ID).build();
+        RolEntity rol = RolEntity.builder().id(registerRequest.getRol()).build();
         UserEntity user = UserEntity.builder().name(registerRequest.getName())
                 .lastName(registerRequest.getLastName())
                 .identityDocument(registerRequest.getIdDocument())
