@@ -10,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -31,6 +32,7 @@ public class UsersRestController {
             @ApiResponse(responseCode = "400", description = "Invalid request")
     })
     @GetMapping
+    @PreAuthorize("hasAnyRole('admin')")
     public ResponseEntity<Page<UserResponse>> getUsers(
             @RequestParam(defaultValue = PAGE) int page,
             @RequestParam(defaultValue = SIZE) int size,
@@ -40,12 +42,12 @@ public class UsersRestController {
         return ResponseEntity.ok(users);
     }
 
-
     @Operation(summary = "Get all users", description = "Returns a list of all users.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "User list returned successfully")
     })
     @GetMapping("/")
+    @PreAuthorize("hasAnyRole('admin')")
     public ResponseEntity<List<UserResponse>> getFromUser() {
         return ResponseEntity.ok(usersHandler.getFromUser());
     }
@@ -56,7 +58,8 @@ public class UsersRestController {
             @ApiResponse(responseCode = "404", description = "User not found")
     })
     @GetMapping("/{id}")
-    public ResponseEntity<UserResponse> getFromUser(@PathVariable(name = "id") Long userId) {
+    @PreAuthorize("hasAnyRole('admin')")
+    public ResponseEntity<UserResponse> getFromUser(@PathVariable(name = ID) Long userId) {
         return ResponseEntity.ok(usersHandler.getFromUser(userId));
     }
 
@@ -67,6 +70,7 @@ public class UsersRestController {
             @ApiResponse(responseCode = "404", description = "User not found")
     })
     @PutMapping("/")
+    @PreAuthorize("hasAnyRole('admin')")
     public ResponseEntity<Void> updateInUser(@Valid @RequestBody UserRequest userRequest) {
         usersHandler.updateInUser(userRequest);
         return ResponseEntity.noContent().build();
@@ -78,9 +82,9 @@ public class UsersRestController {
             @ApiResponse(responseCode = "404", description = "User not found")
     })
     @DeleteMapping("/{userId}")
+    @PreAuthorize("hasAnyRole('admin')")
     public ResponseEntity<Void> deleteFromUser(@PathVariable Long userId) {
         usersHandler.deleteFromUser(userId);
         return ResponseEntity.status(HttpStatus.OK).build();
     }
-
 }

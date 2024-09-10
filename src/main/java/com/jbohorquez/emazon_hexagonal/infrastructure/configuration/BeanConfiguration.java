@@ -13,6 +13,8 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import static com.jbohorquez.emazon_hexagonal.constants.ValidationConstants.USER_NOT_FOUND_MESSAGE;
+
 @Configuration
 @RequiredArgsConstructor
 public class BeanConfiguration {
@@ -36,7 +38,7 @@ public class BeanConfiguration {
     @Bean
     public UserDetailsService userDetailsService() {
         return username -> userRepository.findByEmail(username)
-                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+                .orElseThrow(() -> new UsernameNotFoundException(USER_NOT_FOUND_MESSAGE));
     }
 
     @Bean

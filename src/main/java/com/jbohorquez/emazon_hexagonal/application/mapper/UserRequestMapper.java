@@ -8,15 +8,17 @@ import org.mapstruct.Mapping;
 import org.mapstruct.Named;
 import org.mapstruct.ReportingPolicy;
 
-@Mapper(componentModel = "spring",
+import static com.jbohorquez.emazon_hexagonal.constants.ValidationConstants.*;
+
+@Mapper(componentModel = SPRING,
         unmappedTargetPolicy = ReportingPolicy.IGNORE,
         unmappedSourcePolicy = ReportingPolicy.IGNORE)
 public interface UserRequestMapper {
 
-    @Mapping(target = "rol", source = "rol", qualifiedByName = "toRol")
+    @Mapping(target = ROL, source = ROL, qualifiedByName = TO_ROL)
     User toUser(UserRequest userRequest);
 
-    @Named("toRol")
+    @Named(TO_ROL)
     default Rol toRol(Long rol) {
         Rol rol1 = new Rol();
         rol1.setId(rol);

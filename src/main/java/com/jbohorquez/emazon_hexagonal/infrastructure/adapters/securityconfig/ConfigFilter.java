@@ -31,8 +31,8 @@ public class ConfigFilter {
                 .antMatchers("/auth/**").permitAll()
                 .antMatchers("/swagger-ui.html").permitAll()
                 .antMatchers("/swagger-ui/**").permitAll()
-                .antMatchers("/**").permitAll()
-
+                .antMatchers("/**")
+                .authenticated()
                 .anyRequest().authenticated()
                 .and()
                 .sessionManagement()

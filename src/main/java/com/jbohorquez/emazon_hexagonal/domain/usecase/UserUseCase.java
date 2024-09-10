@@ -3,6 +3,8 @@ package com.jbohorquez.emazon_hexagonal.domain.usecase;
 import com.jbohorquez.emazon_hexagonal.domain.api.IUserServicePort;
 import com.jbohorquez.emazon_hexagonal.domain.model.User;
 import com.jbohorquez.emazon_hexagonal.domain.spi.UserPersistencePort;
+import com.jbohorquez.emazon_hexagonal.infrastructure.exception.AlreadyExistsException;
+import com.jbohorquez.emazon_hexagonal.infrastructure.exception.NameTooLongException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -32,7 +34,13 @@ public abstract class UserUseCase implements IUserServicePort {
 
     @Override
     public void saveInUser(User user) {
-        // Encriptar la contraseña antes de guardar
+        Optional<User> userOptional = userPersistencePort.findByEmail(user.getEmail());
+        if (userOptional.isPresent()) {
+            throw new AlreadyExistsException();
+        }
+        if (user.getName().length() > NAME_MAX_LENGTH) {
+            throw new NameTooLongException(NAME_LONG);
+        }
         String encryptedPassword = passwordEncoder.encode(user.getPassword());
         user.setPassword(encryptedPassword);
         userPersistencePort.saveUser(user);

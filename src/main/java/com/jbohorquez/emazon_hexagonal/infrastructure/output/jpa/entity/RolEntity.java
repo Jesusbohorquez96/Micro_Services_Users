@@ -7,11 +7,10 @@ import javax.validation.constraints.Size;
 
 import java.util.List;
 
-import static com.jbohorquez.emazon_hexagonal.constants.ValidationConstants.DESCRIPTION_MAX_LENGTH;
-import static com.jbohorquez.emazon_hexagonal.constants.ValidationConstants.NAME_MAX_LENGTH;
+import static com.jbohorquez.emazon_hexagonal.constants.ValidationConstants.*;
 
 @Entity
-@Table(name = "roles")
+@Table(name = ROLES)
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
@@ -23,17 +22,15 @@ public class RolEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    //Not null max NAME_MAX_LENGTH characters
     @Column(length= NAME_MAX_LENGTH, nullable = false)
-    @Size(message = "Name is too long", max = NAME_MAX_LENGTH)
+    @Size(message = NAME_LONG, max = NAME_MAX_LENGTH)
     private String name;
 
-    //Not null max DESCRIPTION_MAX_LENGTH characters
     @Column(length = DESCRIPTION_MAX_LENGTH, nullable = false)
-    @Size(message = "Description is too long", max = DESCRIPTION_MAX_LENGTH)
+    @Size(message = DESCRIPTION_LONG, max = DESCRIPTION_MAX_LENGTH)
     private String description;
 
-    @OneToMany(mappedBy = "rol")
+    @OneToMany(mappedBy = ROL)
     private List<UserEntity> users;
 
     public RolEntity(long l, String roleUser, String userRoleDescription) {

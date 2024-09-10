@@ -7,11 +7,13 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
+import static com.jbohorquez.emazon_hexagonal.constants.ValidationConstants.USER_NOT_FOUND;
+
 @Constraint(validatedBy = AgeValidator.class)
 @Target({ ElementType.FIELD })
 @Retention(RetentionPolicy.RUNTIME)
 public @interface Adult {
-    String message() default "User must be an adult";
+    String message() default USER_NOT_FOUND;
     Class<?>[] groups() default {};
     Class<? extends Payload>[] payload() default {};
     int age() default 18;

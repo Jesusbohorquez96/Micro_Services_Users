@@ -16,16 +16,11 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
 
-import static com.jbohorquez.emazon_hexagonal.constants.ValidationConstants.PRIVATE;
-import static com.jbohorquez.emazon_hexagonal.constants.ValidationConstants.TIME;
+import static com.jbohorquez.emazon_hexagonal.constants.ValidationConstants.*;
 
 @Service
 public class JwtService {
     private static final String SECRET_KEY = PRIVATE;
-
-    public String getToken(UserEntity user){
-        return generateToken(new HashMap<>(),user);
-    }
 
     public String generateToken(
             Map<String, Object> extraClaims,
@@ -58,8 +53,8 @@ public class JwtService {
 
     public String generate(UserEntity userDetails) {
         Map<String, Object> claims = new HashMap<>();
-        claims.put("rol", userDetails.getRol().getName());
-        claims.put("id", userDetails.getId());
+        claims.put(ROL, userDetails.getRol().getName());
+        claims.put(ID, userDetails.getId());
         return generateToken(claims, userDetails);
     }
 

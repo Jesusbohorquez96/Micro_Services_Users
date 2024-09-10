@@ -14,35 +14,35 @@ import static com.jbohorquez.emazon_hexagonal.constants.ValidationConstants.*;
 @Setter
 public class RegisterRequest {
 
-    @NotBlank(message = "Name is required")
+    @NotBlank(message = NAME_REQUIRED)
     private String name;
 
-    @NotBlank(message = "Last name is required")
+    @NotBlank(message = LAST_NAME_REQUIRED)
     private String lastName;
 
-    @NotBlank(message = "Password is required")
+    @NotBlank(message = PASSWORD_REQUIRED)
     @Pattern(
             regexp = PASSWORD,
-            message = "Password must be at least 8 characters long, and must include at least one number, one uppercase letter, one lowercase letter, and one special character"
+            message = PASSWORD_INVALID
     )
     private String password;
 
-    @NotBlank(message = "Email is required")
-    @Email(message = "Email must have a valid format")
+    @NotBlank(message = EMAIL_REQUIRED)
+    @Email(message = EMAIL_INVALID_FORMAT)
     private String email;
 
-    @NotNull(message = "Identity document is required")
-    @Digits(integer = INTEGERS, fraction = DECIMALS, message = "Identity document must be numeric and cannot contain decimals")
+    @NotNull(message = ID_DOCUMENT_REQUIRED)
+    @Digits(integer = INTEGERS, fraction = DECIMALS, message = ID_DOCUMENT_NUMERIC)
     private Long idDocument;
 
-    @NotBlank(message = "Phone number is required")
-    @Pattern(regexp = PHONE_NUMBER, message = "Phone number must be a maximum of 13 characters and may include the '+' symbol")
+    @NotBlank(message = PHONE_REQUIRED)
+    @Pattern(regexp = PHONE_NUMBER, message = PHONE_INVALID)
     private String phone;
 
-    @NotNull(message = "Birthdate is required")
-    @Past(message = "Birthdate must be in the past")
+    @NotNull(message = BIRTHDATE_REQUIRED)
+    @Past(message = BIRTHDATE_PAST)
     private LocalDate birthdate;
 
-    @NotNull(message = "Rol is required")
+    @NotNull(message = ROL_REQUIRED)
     private Long rol;
 }

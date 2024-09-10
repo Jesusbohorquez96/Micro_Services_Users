@@ -13,6 +13,8 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import static com.jbohorquez.emazon_hexagonal.constants.ValidationConstants.BUILDER_ID;
+
 @Service
 @RequiredArgsConstructor
 public class AuthenticationService implements IAuthenticationService {
@@ -39,7 +41,7 @@ public class AuthenticationService implements IAuthenticationService {
 
     @Override
     public AuthenticationResponse register(RegisterRequest registerRequest) {
-        RolEntity rol = RolEntity.builder().id(1L).build();
+        RolEntity rol = RolEntity.builder().id(BUILDER_ID).build();
         UserEntity user = UserEntity.builder().name(registerRequest.getName())
                 .lastName(registerRequest.getLastName())
                 .identityDocument(registerRequest.getIdDocument())
@@ -51,7 +53,6 @@ public class AuthenticationService implements IAuthenticationService {
                 .build();
 
         repository.save(user);
-
         user = repository.findByEmail(user.getEmail()).orElseThrow();
 
         String jwtToken = jwtService.generate(user);

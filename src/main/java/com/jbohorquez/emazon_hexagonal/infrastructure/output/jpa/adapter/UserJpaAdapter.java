@@ -3,7 +3,6 @@ package com.jbohorquez.emazon_hexagonal.infrastructure.output.jpa.adapter;
 import com.jbohorquez.emazon_hexagonal.domain.model.User;
 import com.jbohorquez.emazon_hexagonal.domain.spi.UserPersistencePort;
 import com.jbohorquez.emazon_hexagonal.infrastructure.exception.AlreadyExistsException;
-import com.jbohorquez.emazon_hexagonal.infrastructure.exception.NameTooLongException;
 import com.jbohorquez.emazon_hexagonal.infrastructure.exception.NoDataFoundException;
 import com.jbohorquez.emazon_hexagonal.infrastructure.output.jpa.entity.UserEntity;
 import com.jbohorquez.emazon_hexagonal.infrastructure.output.jpa.mapper.UserEntityMapper;
@@ -16,8 +15,6 @@ import org.springframework.data.domain.Pageable;
 import java.util.List;
 import java.util.Optional;
 
-import static com.jbohorquez.emazon_hexagonal.constants.ValidationConstants.NAME_MAX_LENGTH;
-
 @RequiredArgsConstructor
 public class UserJpaAdapter implements UserPersistencePort {
 
@@ -26,15 +23,6 @@ public class UserJpaAdapter implements UserPersistencePort {
 
     @Override
     public void saveUser(User user) {
-
-        //validate that a brand with the same name does not exist
-        if (userRepository.findByName(user.getName()).isPresent()) {
-            throw new AlreadyExistsException();
-        }
-        //validate your name is shorter than NAME_MAX_LENGTH characters
-        if (user.getName().length() > NAME_MAX_LENGTH) {
-            throw new NameTooLongException("Name is too long");
-        }
         userRepository.save(userEntityMapper.toEntity(user));
     }
 

@@ -1,6 +1,5 @@
 package com.jbohorquez.emazon_hexagonal.infrastructure.input.rest;
 
-
 import com.jbohorquez.emazon_hexagonal.application.dto.RolRequest;
 import com.jbohorquez.emazon_hexagonal.application.dto.RolResponse;
 import com.jbohorquez.emazon_hexagonal.application.handler.IRolHandler;
@@ -13,12 +12,15 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+
+import static com.jbohorquez.emazon_hexagonal.constants.ValidationConstants.*;
 
 @RestController
 @RequestMapping("/roles")
@@ -34,6 +36,7 @@ public class RolesRestController {
             @ApiResponse(responseCode = "400", description = "Invalid request")
     })
     @GetMapping
+    @PreAuthorize("hasAnyRole('admin')")
     public ResponseEntity<List<RolResponse>> getAllRol() {
         List<RolResponse> rol = rolHandler.getAllRol();
         return ResponseEntity.ok(rol);
@@ -45,14 +48,15 @@ public class RolesRestController {
             @ApiResponse(responseCode = "400", description = "Invalid input data")
     })
     @PostMapping("/")
+    @PreAuthorize("hasAnyRole('admin')")
     public ResponseEntity<Map<String, String>> saveInRol(@Valid @RequestBody RolRequest rolRequest) {
         try {
             rolHandler.saveInRol(rolRequest);
             return ResponseEntity.status(HttpStatus.CREATED)
-                    .body(Collections.singletonMap("message", ExceptionResponse.SUCCESSFUL_CREATION.getMessage()));
+                    .body(Collections.singletonMap(MESSAGE, ExceptionResponse.SUCCESSFUL_CREATION.getMessage()));
         } catch (AllExistsException e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                    .body(Collections.singletonMap("message", e.getMessage()));
+                    .body(Collections.singletonMap(MESSAGE, e.getMessage()));
         }
     }
 
@@ -62,6 +66,7 @@ public class RolesRestController {
             @ApiResponse(responseCode = "404", description = "Rol not found")
     })
     @GetMapping("/{rolId}")
+    @PreAuthorize("hasAnyRole('admin')")
     public ResponseEntity<RolResponse> getRolById(@PathVariable (name = "rolId") Long rolId) {
         RolResponse rol = rolHandler.getRolById(rolId);
         return ResponseEntity.ok(rol);
@@ -74,6 +79,7 @@ public class RolesRestController {
             @ApiResponse(responseCode = "404", description = "Rol not found")
     })
     @PutMapping("/")
+    @PreAuthorize("hasAnyRole('admin')")
     public ResponseEntity<Map<String, String>> updateRol(@Valid @RequestBody RolRequest rolRequest) {
         rolHandler.updateRol(rolRequest);
         return ResponseEntity.noContent().build();
@@ -85,7 +91,8 @@ public class RolesRestController {
             @ApiResponse(responseCode = "404", description = "Rol not found")
     })
     @DeleteMapping("/{rolId}")
-    public ResponseEntity<Map<String, String>> deleteRol(@PathVariable (name = "rolId") Long rolId) {
+    @PreAuthorize("hasAnyRole('admin')")
+    public ResponseEntity<Map<String, String>> deleteRol(@PathVariable (name = ROL_ID_TARGET) Long rolId) {
         rolHandler.deleteRol(rolId);
         return ResponseEntity.noContent().build();
     }

@@ -15,7 +15,7 @@ import java.util.List;
 import static com.jbohorquez.emazon_hexagonal.constants.ValidationConstants.*;
 
 @Entity
-@Table(name = "users")
+@Table(name = USERS)
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
@@ -27,39 +27,39 @@ public class UserEntity implements UserDetails {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotBlank(message = "Name is required")
+    @NotBlank(message = NAME_REQUIRED)
     private String name;
 
-    @NotBlank(message = "Last name is required")
+    @NotBlank(message = LAST_NAME_REQUIRED)
     private String lastName;
 
-    @NotNull(message = "Identity document is required")
-    @Digits(integer = MAX_DOCUMENT, fraction = ZERO, message = "Identity document must be numeric and cannot contain decimals")
+    @NotNull(message = ID_DOCUMENT_REQUIRED)
+    @Digits(integer = MAX_DOCUMENT, fraction = ZERO, message = ID_DOCUMENT_NUMERIC)
     private Long identityDocument;
 
-    @NotBlank(message = "Phone number is required")
-    @Pattern(regexp = PHONE_NUMBER, message = "Phone number must be a maximum of MAX_PHONE characters and may include the '+' symbol")
+    @NotBlank(message = PHONE_REQUIRED)
+    @Pattern(regexp = PHONE_NUMBER, message = PHONE_INVALID)
     private String phone;
 
-    @NotNull(message = "Birthdate is required")
-    @Adult(message = "User must be at least 18 years old")
+    @NotNull(message = BIRTHDATE_REQUIRED)
+    @Adult(message = USER_MUST_BE_ADULT)
     private LocalDate birthdate;
 
-    @NotBlank(message = "Email is required")
-    @Email(message = "Email must have a valid format")
+    @NotBlank(message = EMAIL_REQUIRED)
+    @Email(message = EMAIL_INVALID_FORMAT)
     private String email;
 
-    @NotBlank(message = "Password is required")
+    @NotBlank(message = PASSWORD_REQUIRED)
     private String password;
 
 
     @ManyToOne
-    @JoinColumn(name = "rol_id")
+    @JoinColumn(name = ROL_ID_LIST)
     private RolEntity rol;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of(new SimpleGrantedAuthority("ROLE_" + rol.getName()));
+        return List.of(new SimpleGrantedAuthority(ROLE + rol.getName()));
     }
 
     @Override

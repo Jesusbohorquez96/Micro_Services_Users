@@ -3,8 +3,6 @@ package com.jbohorquez.emazon_hexagonal.infrastructure.output.jpa.adapter;
 import com.jbohorquez.emazon_hexagonal.domain.model.Rol;
 import com.jbohorquez.emazon_hexagonal.domain.spi.RolPersistencePort;
 import com.jbohorquez.emazon_hexagonal.infrastructure.exception.AlreadyExistsException;
-import com.jbohorquez.emazon_hexagonal.infrastructure.exception.DescriptionTooLongException;
-import com.jbohorquez.emazon_hexagonal.infrastructure.exception.NameTooLongException;
 import com.jbohorquez.emazon_hexagonal.infrastructure.exception.NoDataFoundException;
 import com.jbohorquez.emazon_hexagonal.infrastructure.output.jpa.entity.RolEntity;
 import com.jbohorquez.emazon_hexagonal.infrastructure.output.jpa.mapper.RolEntityMapper;
@@ -13,8 +11,6 @@ import lombok.RequiredArgsConstructor;
 
 import java.util.List;
 
-import static com.jbohorquez.emazon_hexagonal.constants.ValidationConstants.DESCRIPTION_MAX_LENGTH;
-import static com.jbohorquez.emazon_hexagonal.constants.ValidationConstants.NAME_MAX_LENGTH;
 
 @RequiredArgsConstructor
 public class RolJpaAdapter implements RolPersistencePort {
@@ -24,16 +20,6 @@ public class RolJpaAdapter implements RolPersistencePort {
 
     @Override
     public void saveRol(Rol rol) {
-        //validate that a brand with the same name does not exist
-        if (rolRepository.findRolByName(rol.getName()).isPresent()) {
-            throw new AlreadyExistsException();
-        }
-        if (rol.getName().length() > NAME_MAX_LENGTH) {
-            throw new NameTooLongException("Name is too long");
-        }
-        if (rol.getDescription() == null || rol.getDescription().length() > DESCRIPTION_MAX_LENGTH) {
-            throw new DescriptionTooLongException("Description is too long");
-        }
         rolRepository.save(rolEntityMapper.toEntity(rol));
     }
 

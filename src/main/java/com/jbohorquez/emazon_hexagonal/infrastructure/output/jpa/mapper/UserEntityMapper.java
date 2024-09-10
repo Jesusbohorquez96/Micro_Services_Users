@@ -7,7 +7,9 @@ import org.mapstruct.ReportingPolicy;
 
 import java.util.List;
 
-@Mapper(componentModel = "spring",
+import static com.jbohorquez.emazon_hexagonal.constants.ValidationConstants.*;
+
+@Mapper(componentModel = SPRING,
         unmappedTargetPolicy = ReportingPolicy.IGNORE,
         unmappedSourcePolicy = ReportingPolicy.IGNORE)
 public interface UserEntityMapper {
