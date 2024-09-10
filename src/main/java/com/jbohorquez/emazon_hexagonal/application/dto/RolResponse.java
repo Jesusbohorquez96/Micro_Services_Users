@@ -14,7 +14,4 @@ public class RolResponse {
     public RolResponse(long l, String admin, String adminRole) {
     }
 
-    public String getName() {
-        return null;
-    }
 }

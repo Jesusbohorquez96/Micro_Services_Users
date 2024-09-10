@@ -7,15 +7,11 @@ import com.jbohorquez.emazon_hexagonal.domain.api.IUserServicePort;
 import com.jbohorquez.emazon_hexagonal.domain.model.User;
 import com.jbohorquez.emazon_hexagonal.infrastructure.adapters.securityconfig.IAuthenticationService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.List;
 import java.util.stream.Collectors;
-
-import static com.jbohorquez.emazon_hexagonal.constants.ValidationConstants.DESC;
 
 @Service
 @RequiredArgsConstructor
@@ -26,13 +22,6 @@ public class UsersHandler implements IUsersHandler {
     private final UserResponseMapper userResponseMapper;
     private final IUserServicePort userServicePort;
     private final IAuthenticationService authenticationService;
-
-    @Override
-    public Page<UserResponse> getUsers(int page, int size, String sortDirection) {
-        Sort.Direction direction = DESC.equalsIgnoreCase(sortDirection) ? Sort.Direction.DESC : Sort.Direction.ASC;
-        return userServicePort.getUsers(page, size, direction)
-                .map(userResponseMapper::toResponseList);
-    }
 
     @Override
     public void saveInUser(UserRequest userRequest) {

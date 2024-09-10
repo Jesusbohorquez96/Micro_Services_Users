@@ -7,7 +7,6 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -25,22 +24,6 @@ import static com.jbohorquez.emazon_hexagonal.constants.ValidationConstants.*;
 public class UsersRestController {
 
     private final IUsersHandler usersHandler;
-
-    @Operation(summary = "Get paginated users", description = "Returns a paginated list of users.")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "User list returned successfully"),
-            @ApiResponse(responseCode = "400", description = "Invalid request")
-    })
-    @GetMapping
-    @PreAuthorize("hasAnyRole('admin')")
-    public ResponseEntity<Page<UserResponse>> getUsers(
-            @RequestParam(defaultValue = PAGE) int page,
-            @RequestParam(defaultValue = SIZE) int size,
-            @RequestParam(defaultValue = ASC) String sortDirection
-    ) {
-        Page<UserResponse> users = usersHandler.getUsers(page, size, sortDirection);
-        return ResponseEntity.ok(users);
-    }
 
     @Operation(summary = "Get all users", description = "Returns a list of all users.")
     @ApiResponses(value = {

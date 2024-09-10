@@ -5,10 +5,6 @@ import com.jbohorquez.emazon_hexagonal.domain.model.User;
 import com.jbohorquez.emazon_hexagonal.domain.spi.UserPersistencePort;
 import com.jbohorquez.emazon_hexagonal.infrastructure.exception.AlreadyExistsException;
 import com.jbohorquez.emazon_hexagonal.infrastructure.exception.NameTooLongException;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.List;
@@ -66,12 +62,5 @@ public abstract class UserUseCase implements IUserServicePort {
     @Override
     public void deleteUser(Long userId) {
         userPersistencePort.deleteUser(userId);
-    }
-
-    @Override
-    public Page<User> getUsers(int pageNumber, int pageSize, Sort.Direction sortDirection) {
-        Sort sort = Sort.by(sortDirection, NAME);
-        Pageable pageable = PageRequest.of(pageNumber, pageSize, sort);
-        return userPersistencePort.findAllUser(pageable);
     }
 }
