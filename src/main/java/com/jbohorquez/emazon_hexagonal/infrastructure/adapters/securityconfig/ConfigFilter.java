@@ -12,6 +12,8 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
+import static com.jbohorquez.emazon_hexagonal.constants.ValidationConstants.*;
+
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
@@ -28,10 +30,10 @@ public class ConfigFilter {
                 .csrf()
                 .disable()
                 .authorizeHttpRequests()
-                .antMatchers("/auth/**").permitAll()
-                .antMatchers("/swagger-ui.html").permitAll()
-                .antMatchers("/swagger-ui/**").permitAll()
-                .antMatchers("/**")
+                .antMatchers(AUTH).permitAll()
+                .antMatchers(SWAGGER_UI).permitAll()
+                .antMatchers(SWAGGER_UI_RESOURCES).permitAll()
+                .antMatchers(ALL)
                 .authenticated()
                 .anyRequest().authenticated()
                 .and()

@@ -58,7 +58,6 @@ public abstract class UserUseCase implements IUserServicePort {
 
     @Override
     public void updateUser(User user) {
-        // Encriptar la contraseña antes de actualizar
         String encryptedPassword = passwordEncoder.encode(user.getPassword());
         user.setPassword(encryptedPassword);
         userPersistencePort.updateUser(user);

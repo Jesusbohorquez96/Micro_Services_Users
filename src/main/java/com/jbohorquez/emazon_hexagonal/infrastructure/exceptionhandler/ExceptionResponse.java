@@ -13,7 +13,6 @@ public enum ExceptionResponse {
     CHARACTER_LIMIT_EXCEEDED("Character limit exceeded"),;
 
     private final String message;
-
     ExceptionResponse(String message) {
         this.message = message;
     }

@@ -26,7 +26,6 @@ public class ControllerAdvisor {
         return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
     }
 
-
     @ExceptionHandler(AlreadyExistsException.class)
     public ResponseEntity<Map<String, String>> AlreadyExistsException(
             AlreadyExistsException AlreadyExistsException) {

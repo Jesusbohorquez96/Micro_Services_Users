@@ -7,11 +7,9 @@ import com.jbohorquez.emazon_hexagonal.infrastructure.exception.DescriptionTooLo
 import com.jbohorquez.emazon_hexagonal.infrastructure.exception.NameTooLongException;
 
 import java.util.List;
-
 import static com.jbohorquez.emazon_hexagonal.constants.ValidationConstants.*;
 
 public class RolUseCase implements IRolServicePort {
-
 
     private final RolPersistencePort rolPersistencePort;
 

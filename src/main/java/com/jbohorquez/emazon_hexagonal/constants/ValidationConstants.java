@@ -3,15 +3,16 @@ package com.jbohorquez.emazon_hexagonal.constants;
 public class ValidationConstants {
 
     public static final long TIME = 1000 * 60 * 60 * 24;
+    public static final long BUILDER_ID = 1l;
 
     public static final int ZERO = 0;
     public static final int DECIMALS = 2;
     public static final int SEVEN = 7;
     public static final int INTEGERS = 10;
+    public static final int MAYOR = 18;
     public static final int MAX_DOCUMENT = 20;
     public static final int NAME_MAX_LENGTH = 50;
     public static final int DESCRIPTION_MAX_LENGTH = 90;
-    public static final Long BUILDER_ID = 1l;
 
     public static final String PAGE = "0";
     public static final String SIZE = "10";
@@ -81,6 +82,11 @@ public class ValidationConstants {
     public static final String TERMS_OF_SERVICE_URL = "http://swagger.io/terms/";
     public static final String LICENSE_NAME = "Apache 2.0";
     public static final String LICENSE_URL = "http://springdoc.org";
+
+    public static final String SWAGGER_UI = "/swagger-ui.html";
+    public static final String SWAGGER_UI_RESOURCES = "/swagger-ui/**";
+    public static final String AUTH = "/auth/**";
+    public static final String ALL = "/**";
 
     private ValidationConstants() {
         throw new IllegalStateException("Utility class");

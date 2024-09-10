@@ -27,5 +27,4 @@ public class BeanConfigurationUser {
         return new UserUseCase(userPersistencePort, passwordEncoder) {
         };
     }
-
 }
