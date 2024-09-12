@@ -10,7 +10,9 @@ public enum ExceptionResponse {
     INTERNAL_ERROR("internal error"),
     NOT_EXISTS("Not exist"),
     SUCCESSFUL_CREATION("Successful creation"),
-    CHARACTER_LIMIT_EXCEEDED("Character limit exceeded"),;
+    CHARACTER_LIMIT_EXCEEDED("Character limit exceeded"),
+    INVALID("Invalid password or email"),
+    ACCESS_DENIED("Access denied: Invalid or malformed JWT token"),;
 
     private final String message;
     ExceptionResponse(String message) {

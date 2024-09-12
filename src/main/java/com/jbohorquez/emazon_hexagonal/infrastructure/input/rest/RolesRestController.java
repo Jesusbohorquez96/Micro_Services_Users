@@ -48,6 +48,7 @@ public class RolesRestController {
             @ApiResponse(responseCode = "400", description = "Invalid input data")
     })
     @PostMapping("/")
+    @PreAuthorize("hasAnyRole('admin')")
     public ResponseEntity<Map<String, String>> saveInRol(@Valid @RequestBody RolRequest rolRequest) {
         try {
             rolHandler.saveInRol(rolRequest);

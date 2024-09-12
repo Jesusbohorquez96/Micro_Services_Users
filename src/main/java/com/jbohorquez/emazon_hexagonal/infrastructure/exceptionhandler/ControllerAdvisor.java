@@ -1,10 +1,14 @@
 package com.jbohorquez.emazon_hexagonal.infrastructure.exceptionhandler;
 
 import com.jbohorquez.emazon_hexagonal.error.ErrorResponse;
+import com.jbohorquez.emazon_hexagonal.infrastructure.exception.AlreadyExistsException;
+import com.jbohorquez.emazon_hexagonal.infrastructure.exception.NoDataFoundException;
+import com.jbohorquez.emazon_hexagonal.infrastructure.exception.NotFoundException;
 import io.jsonwebtoken.MalformedJwtException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -12,6 +16,8 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 
 import java.util.*;
 import java.util.stream.Collectors;
+
+import static com.jbohorquez.emazon_hexagonal.constants.ValidationConstants.MESSAGE;
 
 @ControllerAdvice
 public class ControllerAdvisor {
@@ -31,5 +37,42 @@ public class ControllerAdvisor {
         logger.error("Malformed JWT Exception: ", ex);
         ErrorResponse errorResponse = new ErrorResponse("JWT Token", "Invalid or malformed JWT token");
         return new ResponseEntity<>(errorResponse, HttpStatus.FORBIDDEN);
+    }
+
+    @ExceptionHandler(AlreadyExistsException.class)
+    public ResponseEntity<Map<String, String>> AlreadyExistsException(
+            AlreadyExistsException AlreadyExistsException) {
+        return ResponseEntity.status(HttpStatus.CONFLICT)
+                .body(Collections.singletonMap(MESSAGE, ExceptionResponse.NOT_EXISTS.getMessage()));
+    }
+
+    @ExceptionHandler(NoDataFoundException.class)
+    public ResponseEntity<Map<String, String>> handleNoDataFoundException(
+            NoDataFoundException noDataFoundException) {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                .body(Collections.singletonMap(MESSAGE, ExceptionResponse.NO_DATA_FOUND.getMessage()));
+    }
+
+    @ExceptionHandler(NotFoundException.class)
+    public ResponseEntity<Map<String, String>> handleCategoryNotFoundException(
+            NotFoundException categoryNotFoundException) {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                .body(Collections.singletonMap(MESSAGE, ExceptionResponse.CATEGORY_NOT_FOUND.getMessage()));
+    }
+
+    @ExceptionHandler(RuntimeException.class)
+    public ResponseEntity<Map<String, String>> handleRuntimeException(RuntimeException ex) {
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                .body(Collections.singletonMap(MESSAGE, ExceptionResponse.INVALID.getMessage()));
+    }
+
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<Map<String, String>> handleInvalidCredentialsException(MalformedJwtException ex) {
+        Map<String, String> body = new HashMap<>();
+        body.put("message", ExceptionResponse.ACCESS_DENIED.getMessage());
+
+        return ResponseEntity.status(HttpStatus.FORBIDDEN)
+                .contentType(MediaType.APPLICATION_JSON)
+                .body(body);
     }
 }

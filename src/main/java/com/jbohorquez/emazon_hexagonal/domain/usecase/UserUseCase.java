@@ -1,8 +1,12 @@
 package com.jbohorquez.emazon_hexagonal.domain.usecase;
 
+import com.jbohorquez.emazon_hexagonal.application.dto.AuthenticationRequest;
+import com.jbohorquez.emazon_hexagonal.application.dto.AuthenticationResponse;
+import com.jbohorquez.emazon_hexagonal.application.dto.RegisterRequest;
 import com.jbohorquez.emazon_hexagonal.domain.api.IUserServicePort;
 import com.jbohorquez.emazon_hexagonal.domain.model.User;
 import com.jbohorquez.emazon_hexagonal.domain.spi.UserPersistencePort;
+import com.jbohorquez.emazon_hexagonal.infrastructure.adapters.securityconfig.IAuthenticationService;
 import com.jbohorquez.emazon_hexagonal.infrastructure.exception.AlreadyExistsException;
 import com.jbohorquez.emazon_hexagonal.infrastructure.exception.NameTooLongException;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -16,10 +20,12 @@ public abstract class UserUseCase implements IUserServicePort {
 
     private final UserPersistencePort userPersistencePort;
     private final PasswordEncoder passwordEncoder;
+    private final IAuthenticationService authenticationService;
 
-    public UserUseCase(UserPersistencePort userPersistencePort, PasswordEncoder passwordEncoder) {
+    public UserUseCase(UserPersistencePort userPersistencePort, PasswordEncoder passwordEncoder, IAuthenticationService authenticationService) {
         this.userPersistencePort = userPersistencePort;
         this.passwordEncoder = passwordEncoder;
+        this.authenticationService = authenticationService;
 
     }
 
@@ -62,5 +68,15 @@ public abstract class UserUseCase implements IUserServicePort {
     @Override
     public void deleteUser(Long userId) {
         userPersistencePort.deleteUser(userId);
+    }
+
+    @Override
+    public AuthenticationResponse validateUser(AuthenticationRequest authenticationRequest) {
+        return authenticationService.authenticate(authenticationRequest);
+    }
+
+    @Override
+    public AuthenticationResponse registerUser(RegisterRequest registerRequest) {
+        return authenticationService.register(registerRequest);
     }
 }

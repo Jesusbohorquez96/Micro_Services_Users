@@ -26,10 +26,10 @@ public class User {
         this.rol = rol;
     }
 
-    public User(String s, String mail, String number, String doe) {
+    public User() {
     }
 
-    public User() {
+    public User(String user, String lastname, String mail, String password, Object o) {
     }
 
 

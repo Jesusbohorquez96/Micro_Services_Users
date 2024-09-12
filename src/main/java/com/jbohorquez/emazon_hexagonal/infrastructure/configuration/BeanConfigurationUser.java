@@ -2,6 +2,7 @@ package com.jbohorquez.emazon_hexagonal.infrastructure.configuration;
 
 import com.jbohorquez.emazon_hexagonal.domain.spi.UserPersistencePort;
 import com.jbohorquez.emazon_hexagonal.domain.usecase.UserUseCase;
+import com.jbohorquez.emazon_hexagonal.infrastructure.adapters.securityconfig.IAuthenticationService;
 import com.jbohorquez.emazon_hexagonal.infrastructure.output.jpa.adapter.UserJpaAdapter;
 import com.jbohorquez.emazon_hexagonal.infrastructure.output.jpa.mapper.UserEntityMapper;
 import com.jbohorquez.emazon_hexagonal.infrastructure.output.jpa.repository.IUserRepository;
@@ -23,8 +24,8 @@ public class BeanConfigurationUser {
     }
 
     @Bean
-    public UserUseCase userUseCase(UserPersistencePort userPersistencePort, PasswordEncoder passwordEncoder) {
-        return new UserUseCase(userPersistencePort, passwordEncoder) {
+    public UserUseCase userUseCase(UserPersistencePort userPersistencePort, PasswordEncoder passwordEncoder, IAuthenticationService authenticationService) {
+        return new UserUseCase(userPersistencePort, passwordEncoder, authenticationService) {
         };
     }
 }

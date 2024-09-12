@@ -35,7 +35,6 @@ class RegisterRequestTest {
 
     @Test
     void testValidRegisterRequest() {
-        // Verificar que una instancia válida de RegisterRequest no genera violaciones
         Set<ConstraintViolation<RegisterRequest>> violations = validator.validate(registerRequest);
         assertTrue(violations.isEmpty());
     }

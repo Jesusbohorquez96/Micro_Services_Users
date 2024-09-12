@@ -9,13 +9,14 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
+
+import static com.jbohorquez.emazon_hexagonal.constants.ValidationConstants.USER_CREATED;
 
 @RestController
 @RequestMapping("/auth")
@@ -30,7 +31,6 @@ public class AutenticateController {
             @ApiResponse(responseCode = "401", description = "Invalid email or password")
     })
     @PostMapping("/login")
-    @PreAuthorize("hasAnyRole('admin', 'aux_bodega', 'costumer')")
     public ResponseEntity<AuthenticationResponse> loginUser(@Valid @RequestBody AuthenticationRequest authenticationRequest) {
         return ResponseEntity.ok(usersHandler.validateUser(authenticationRequest));
     }
@@ -43,9 +43,8 @@ public class AutenticateController {
             @ApiResponse(responseCode = "500", description = "Internal server error"),
     })
     @PostMapping("/register")
-    public ResponseEntity<AuthenticationResponse> register(@Valid
-            @RequestBody RegisterRequest registerRequest
-    ) {
-        return ResponseEntity.ok(usersHandler.registerUser(registerRequest));
+    public ResponseEntity<String> register(@Valid @RequestBody RegisterRequest registerRequest) {
+        usersHandler.registerUser(registerRequest);
+        return ResponseEntity.ok(USER_CREATED);
     }
 }

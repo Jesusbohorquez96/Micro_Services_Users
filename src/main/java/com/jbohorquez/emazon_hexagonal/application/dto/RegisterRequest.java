@@ -1,9 +1,11 @@
 package com.jbohorquez.emazon_hexagonal.application.dto;
 
+import com.jbohorquez.emazon_hexagonal.application.validation.Adult;
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
+import javax.persistence.Column;
 import javax.validation.constraints.*;
 import java.time.LocalDate;
 
@@ -27,6 +29,7 @@ public class RegisterRequest {
     )
     private String password;
 
+    @Column(length = EMAIL_MAX_LENGTH, nullable = false)
     @NotBlank(message = EMAIL_REQUIRED)
     @Email(message = EMAIL_INVALID_FORMAT)
     private String email;
@@ -41,8 +44,10 @@ public class RegisterRequest {
 
     @NotNull(message = BIRTHDATE_REQUIRED)
     @Past(message = BIRTHDATE_PAST)
+    @Adult(message = USER_MUST_BE_ADULT)
     private LocalDate birthdate;
 
     @NotNull(message = ROL_REQUIRED)
     private Long rol;
+
 }

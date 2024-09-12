@@ -57,10 +57,8 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             filterChain.doFilter(request, response);
         } catch (MalformedJwtException e) {
             response.setContentType(JSON);
-            response.setStatus(HttpServletResponse.SC_FORBIDDEN);
+            response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
             response.getOutputStream().println(ERROR_JWT);
         }
     }
 }
-
-

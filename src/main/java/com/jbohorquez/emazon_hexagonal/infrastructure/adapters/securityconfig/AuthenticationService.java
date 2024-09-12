@@ -24,13 +24,15 @@ public class AuthenticationService implements IAuthenticationService {
 
     @Override
     public AuthenticationResponse authenticate(AuthenticationRequest request) {
-        authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(
-                        request.getEmail(),
-                        request.getPassword()
-                )
-        );
-        UserEntity user = repository.findByEmail(request.getEmail()).orElseThrow();
+            authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(
+                            request.getEmail(),
+                            request.getPassword()
+                    )
+            );
+        UserEntity user = repository
+                .findByEmail(request.getEmail())
+                .orElseThrow();
 
         String jwtToken = jwtService.generate(user);
         return AuthenticationResponse.builder()

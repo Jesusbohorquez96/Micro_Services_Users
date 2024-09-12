@@ -5,7 +5,6 @@ import com.jbohorquez.emazon_hexagonal.application.mapper.UserRequestMapper;
 import com.jbohorquez.emazon_hexagonal.application.mapper.UserResponseMapper;
 import com.jbohorquez.emazon_hexagonal.domain.api.IUserServicePort;
 import com.jbohorquez.emazon_hexagonal.domain.model.User;
-import com.jbohorquez.emazon_hexagonal.infrastructure.adapters.securityconfig.IAuthenticationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -21,7 +20,6 @@ public class UsersHandler implements IUsersHandler {
     private final UserRequestMapper userRequestMapper;
     private final UserResponseMapper userResponseMapper;
     private final IUserServicePort userServicePort;
-    private final IAuthenticationService authenticationService;
 
     @Override
     public void saveInUser(UserRequest userRequest) {
@@ -56,11 +54,12 @@ public class UsersHandler implements IUsersHandler {
 
     @Override
     public AuthenticationResponse validateUser(AuthenticationRequest authenticationRequest) {
-        return authenticationService.authenticate(authenticationRequest);
+        return userServicePort.validateUser(authenticationRequest);
     }
 
     @Override
     public AuthenticationResponse registerUser(RegisterRequest registerRequest) {
-        return authenticationService.register(registerRequest);
+        return userServicePort.registerUser(registerRequest);
     }
+
 }
