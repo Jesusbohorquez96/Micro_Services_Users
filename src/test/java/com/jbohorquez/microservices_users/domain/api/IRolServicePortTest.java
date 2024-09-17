@@ -50,29 +50,6 @@ class IRolServicePortTest {
     }
 
     @Test
-    public void testGetRolById() {
-        Rol rol = new Rol("Admin", "Admin role", 1L);
-        when(rolPersistencePort.getRolById(1L)).thenReturn(rol);
-
-        Rol result = rolUseCase.getRolById(1L);
-
-        assertNotNull(result);
-        assertEquals(1L, result.getId());
-        assertEquals("Admin", result.getName());
-        verify(rolPersistencePort, times(1)).getRolById(1L);
-    }
-
-    @Test
-    public void testUpdateRol() {
-        Rol rol = new Rol("Admin", "Updated role", 1L);
-        doNothing().when(rolPersistencePort).updateRol(rol);
-
-        rolUseCase.updateRol(rol);
-
-        verify(rolPersistencePort, times(1)).updateRol(rol);
-    }
-
-    @Test
     public void testDeleteRol() {
         doNothing().when(rolPersistencePort).deleteRol(1L);
 

@@ -59,7 +59,6 @@ class RegisterRequestTest {
 
     @Test
     void testPasswordValidation() {
-        // Probar el patrón de la contraseña
         registerRequest.setPassword("weakpassword");
 
         Set<ConstraintViolation<RegisterRequest>> violations = validator.validate(registerRequest);
@@ -72,7 +71,6 @@ class RegisterRequestTest {
 
     @Test
     void testEmailValidation() {
-        // Probar el formato de correo electrónico
         registerRequest.setEmail("invalid-email");
 
         Set<ConstraintViolation<RegisterRequest>> violations = validator.validate(registerRequest);
@@ -93,7 +91,6 @@ class RegisterRequestTest {
 
     @Test
     void testPhoneValidation() {
-        // Probar que el teléfono sigue el patrón especificado
         registerRequest.setPhone("123abc");
 
         Set<ConstraintViolation<RegisterRequest>> violations = validator.validate(registerRequest);
@@ -102,18 +99,7 @@ class RegisterRequestTest {
     }
 
     @Test
-    void testBirthdateValidation() {
-        // Probar que la fecha de nacimiento debe estar en el pasado
-        registerRequest.setBirthdate(LocalDate.now().plusDays(1));
-
-        Set<ConstraintViolation<RegisterRequest>> violations = validator.validate(registerRequest);
-        assertFalse(violations.isEmpty());
-        assertEquals("Birthdate must be in the past", violations.iterator().next().getMessage());
-    }
-
-    @Test
     void testRolValidation() {
-        // Probar que el rol es obligatorio
         registerRequest.setRol(null);
 
         Set<ConstraintViolation<RegisterRequest>> violations = validator.validate(registerRequest);

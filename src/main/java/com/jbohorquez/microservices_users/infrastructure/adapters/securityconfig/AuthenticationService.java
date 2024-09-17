@@ -41,7 +41,7 @@ public class AuthenticationService implements IAuthenticationService {
     }
 
     @Override
-    public AuthenticationResponse register(RegisterRequest registerRequest) {
+    public void register(RegisterRequest registerRequest) {
         RolEntity rol = RolEntity.builder().id(registerRequest.getRol()).build();
         UserEntity user = UserEntity.builder().name(registerRequest.getName())
                 .lastName(registerRequest.getLastName())
@@ -57,7 +57,7 @@ public class AuthenticationService implements IAuthenticationService {
         user = repository.findByEmail(user.getEmail()).orElseThrow();
 
         String jwtToken = jwtService.generate(user);
-        return AuthenticationResponse.builder()
+        AuthenticationResponse.builder()
                 .token(jwtToken)
                 .build();
     }

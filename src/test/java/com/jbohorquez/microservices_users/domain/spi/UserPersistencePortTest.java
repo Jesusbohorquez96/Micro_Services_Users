@@ -54,24 +54,6 @@ class UserPersistencePortTest {
     }
 
     @Test
-    void testGetUserById() {
-        when(userPersistencePort.getUserById(1L)).thenReturn(user);
-
-        User result = userPersistencePort.getUserById(1L);
-        assertNotNull(result);
-        assertEquals("John", result.getName());
-        assertEquals("john@example.com", result.getEmail());
-    }
-
-    @Test
-    void testUpdateUser() {
-        doNothing().when(userPersistencePort).updateUser(any(User.class));
-        user.setName("Updated John");
-        userPersistencePort.updateUser(user);
-        verify(userPersistencePort, times(1)).updateUser(user);
-    }
-
-    @Test
     void testDeleteUser() {
         doNothing().when(userPersistencePort).deleteUser(1L);
         userPersistencePort.deleteUser(1L);

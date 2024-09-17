@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
 
-import static com.jbohorquez.microservices_users.constants.ValidationConstants.USER_CREATED;
+import static com.jbohorquez.microservices_users.constants.ValidationConstants.*;
 
 @RestController
 @RequestMapping("/auth")

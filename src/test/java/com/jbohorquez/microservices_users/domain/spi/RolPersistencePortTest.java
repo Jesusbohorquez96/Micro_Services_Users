@@ -48,23 +48,6 @@ class RolPersistencePortTest {
     }
 
     @Test
-    void testGetRolById() {
-        when(rolPersistencePort.getRolById(1L)).thenReturn(rol);
-
-        Rol result = rolPersistencePort.getRolById(1L);
-        assertNotNull(result);
-        assertEquals("Admin", result.getName());
-    }
-
-    @Test
-    void testUpdateRol() {
-        doNothing().when(rolPersistencePort).updateRol(any(Rol.class));
-        rol.setName("Updated Admin");
-        rolPersistencePort.updateRol(rol);
-        verify(rolPersistencePort, times(1)).updateRol(rol);
-    }
-
-    @Test
     void testDeleteRol() {
         doNothing().when(rolPersistencePort).deleteRol(1L);
         rolPersistencePort.deleteRol(1L);

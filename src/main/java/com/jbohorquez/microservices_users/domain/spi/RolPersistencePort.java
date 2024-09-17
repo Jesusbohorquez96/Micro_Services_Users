@@ -10,9 +10,5 @@ public interface RolPersistencePort {
 
     List<Rol> getAllRol();
 
-    Rol getRolById(Long rolId);
-
-    void updateRol(Rol rolId);
-
     void deleteRol(Long rolId);
 }

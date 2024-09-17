@@ -12,10 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
 import java.util.List;
-
-import static com.jbohorquez.microservices_users.constants.ValidationConstants.*;
 
 @RestController
 @RequestMapping("/users")
@@ -33,30 +30,6 @@ public class UsersRestController {
     @PreAuthorize("hasAnyRole('admin')")
     public ResponseEntity<List<UserResponse>> getFromUser() {
         return ResponseEntity.ok(usersHandler.getFromUser());
-    }
-
-    @Operation(summary = "Get a user by ID", description = "Returns a specific user based on its ID.")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "User returned successfully"),
-            @ApiResponse(responseCode = "404", description = "User not found")
-    })
-    @GetMapping("/{id}")
-    @PreAuthorize("hasAnyRole('admin', 'aux_bodega')")
-    public ResponseEntity<UserResponse> getFromUser(@PathVariable(name = ID) Long userId) {
-        return ResponseEntity.ok(usersHandler.getFromUser(userId));
-    }
-
-    @Operation(summary = "Update a user", description = "Updates an existing user in the database.")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "204", description = "Users actualizada exitosamente"),
-            @ApiResponse(responseCode = "400", description = "Invalid input data"),
-            @ApiResponse(responseCode = "404", description = "User not found")
-    })
-    @PutMapping("/")
-    @PreAuthorize("hasAnyRole('admin')")
-    public ResponseEntity<Void> updateInUser(@Valid @RequestBody UserRequest userRequest) {
-        usersHandler.updateInUser(userRequest);
-        return ResponseEntity.noContent().build();
     }
 
     @Operation(summary = "Delete a user", description = "Delete an existing user based on its ID.")

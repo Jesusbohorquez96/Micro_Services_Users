@@ -37,23 +37,6 @@ class IUserServicePortTest {
     }
 
     @Test
-    void testGetUserById() {
-        when(userServicePort.getUserById(1L)).thenReturn(user);
-
-        User result = userServicePort.getUserById(1L);
-        assertNotNull(result);
-        assertEquals("John", result.getName());
-    }
-
-    @Test
-    void testUpdateUser() {
-        doNothing().when(userServicePort).updateUser(any(User.class));
-        user.setLastName("Updated");
-        userServicePort.updateUser(user);
-        verify(userServicePort, times(1)).updateUser(user);
-    }
-
-    @Test
     void testDeleteUser() {
         doNothing().when(userServicePort).deleteUser(1L);
         userServicePort.deleteUser(1L);

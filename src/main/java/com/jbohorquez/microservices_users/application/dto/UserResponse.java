@@ -19,4 +19,6 @@ public class UserResponse {
     private String userPassword;
     private String userRol;
 
+    public UserResponse() {
+    }
 }

@@ -36,17 +36,6 @@ public class UserJpaAdapter implements UserPersistencePort {
     }
 
     @Override
-    public User getUserById(Long userId) {
-        return userEntityMapper.toUser(userRepository.findById(userId)
-                .orElseThrow(AlreadyExistsException::new));
-    }
-
-    @Override
-    public void updateUser(User user) {
-        userRepository.save(userEntityMapper.toEntity(user));
-    }
-
-    @Override
     public void deleteUser(Long userId) {
         userRepository.deleteById(userId);
     }

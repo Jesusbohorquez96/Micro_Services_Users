@@ -33,17 +33,6 @@ public class RolJpaAdapter implements RolPersistencePort {
     }
 
     @Override
-    public Rol getRolById(Long rolId) {
-        return rolEntityMapper.toRol(rolRepository.findById(rolId)
-                .orElseThrow(AlreadyExistsException::new));
-    }
-
-    @Override
-    public void updateRol(Rol rolId) {
-        rolRepository.save(rolEntityMapper.toEntity(rolId));
-    }
-
-    @Override
     public void deleteRol(Long rolId) {
         rolRepository.deleteById(rolId);
     }

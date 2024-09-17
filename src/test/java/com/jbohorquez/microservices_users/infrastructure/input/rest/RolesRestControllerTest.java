@@ -77,29 +77,6 @@ class RolesRestControllerTest {
     }
 
     @Test
-    void testGetRolById_Success() {
-        when(rolHandler.getRolById(anyLong())).thenReturn(rolResponse);
-
-        ResponseEntity<RolResponse> response = rolesRestController.getRolById(1L);
-
-        assertNotNull(response);
-        assertEquals(HttpStatus.OK, response.getStatusCode());
-        assertEquals(rolResponse, response.getBody());
-        verify(rolHandler, times(1)).getRolById(anyLong());
-    }
-
-    @Test
-    void testUpdateRol_Success() {
-        doNothing().when(rolHandler).updateRol(any(RolRequest.class));
-
-        ResponseEntity<Map<String, String>> response = rolesRestController.updateRol(rolRequest);
-
-        assertNotNull(response);
-        assertEquals(HttpStatus.NO_CONTENT, response.getStatusCode());
-        verify(rolHandler, times(1)).updateRol(any(RolRequest.class));
-    }
-
-    @Test
     void testDeleteRol_Success() {
         doNothing().when(rolHandler).deleteRol(anyLong());
 

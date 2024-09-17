@@ -1,7 +1,6 @@
 package com.jbohorquez.microservices_users.infrastructure.output.jpa.adapter;
 
 import com.jbohorquez.microservices_users.domain.model.User;
-import com.jbohorquez.microservices_users.infrastructure.exception.AlreadyExistsException;
 import com.jbohorquez.microservices_users.infrastructure.exception.NoDataFoundException;
 import com.jbohorquez.microservices_users.infrastructure.output.jpa.entity.UserEntity;
 import com.jbohorquez.microservices_users.infrastructure.output.jpa.mapper.UserEntityMapper;
@@ -75,35 +74,6 @@ class UserJpaAdapterTest {
         assertThrows(NoDataFoundException.class, () -> userJpaAdapter.getAllUser());
 
         verify(userRepository, times(1)).findAll();
-    }
-
-    @Test
-    void testGetUserById_Success() {
-        when(userRepository.findById(anyLong())).thenReturn(Optional.of(userEntity));
-        when(userEntityMapper.toUser(any(UserEntity.class))).thenReturn(user);
-
-        User result = userJpaAdapter.getUserById(1L);
-
-        assertNotNull(result);
-        verify(userRepository, times(1)).findById(anyLong());
-    }
-
-    @Test
-    void testGetUserById_NoDataFound() {
-        when(userRepository.findById(anyLong())).thenReturn(Optional.empty());
-
-        assertThrows(AlreadyExistsException.class, () -> userJpaAdapter.getUserById(1L));
-
-        verify(userRepository, times(1)).findById(anyLong());
-    }
-
-    @Test
-    void testUpdateUser() {
-        when(userEntityMapper.toEntity(any(User.class))).thenReturn(userEntity);
-
-        userJpaAdapter.updateUser(user);
-
-        verify(userRepository, times(1)).save(any(UserEntity.class));
     }
 
     @Test

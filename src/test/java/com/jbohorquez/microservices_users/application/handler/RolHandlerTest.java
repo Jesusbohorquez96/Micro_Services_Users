@@ -73,35 +73,6 @@ class RolHandlerTest {
     }
 
     @Test
-    void testGetRolById() {
-        Rol rol = new Rol();
-        RolResponse expectedResponse = new RolResponse(1L, "Admin", "Administrator role");
-
-        when(rolServicePort.getRolById(1L)).thenReturn(rol);
-        when(rolResponseMapper.toResponse(rol)).thenReturn(expectedResponse);
-
-        RolResponse actualResponse = rolHandler.getRolById(1L);
-
-        assertEquals(expectedResponse.getRolId(), actualResponse.getRolId());
-        assertEquals(expectedResponse.getRolName(), actualResponse.getRolName());
-        verify(rolServicePort, times(1)).getRolById(1L);
-        verify(rolResponseMapper, times(1)).toResponse(rol);
-    }
-
-    @Test
-    void testUpdateRol() {
-        RolRequest rolRequest = new RolRequest("Admin", "Administrator role");
-        Rol rol = new Rol();
-
-        when(rolRequestMapper.toRol(any(RolRequest.class))).thenReturn(rol);
-
-        rolHandler.updateRol(rolRequest);
-
-        verify(rolRequestMapper, times(1)).toRol(rolRequest);
-        verify(rolServicePort, times(1)).updateRol(rol);
-    }
-
-    @Test
     void testDeleteRol() {
         Long rolId = 1L;
 

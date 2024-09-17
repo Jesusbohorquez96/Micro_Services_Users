@@ -54,18 +54,6 @@ public abstract class UserUseCase implements IUserServicePort {
     }
 
     @Override
-    public User getUserById(Long userId) {
-        return userPersistencePort.getUserById(userId);
-    }
-
-    @Override
-    public void updateUser(User user) {
-        String encryptedPassword = passwordEncoder.encode(user.getPassword());
-        user.setPassword(encryptedPassword);
-        userPersistencePort.updateUser(user);
-    }
-
-    @Override
     public void deleteUser(Long userId) {
         userPersistencePort.deleteUser(userId);
     }
@@ -76,7 +64,7 @@ public abstract class UserUseCase implements IUserServicePort {
     }
 
     @Override
-    public AuthenticationResponse registerUser(RegisterRequest registerRequest) {
-        return authenticationService.register(registerRequest);
+    public void registerUser(RegisterRequest registerRequest) {
+        authenticationService.register(registerRequest);
     }
 }

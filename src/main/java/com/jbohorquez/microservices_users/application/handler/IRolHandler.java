@@ -11,10 +11,6 @@ public interface IRolHandler {
 
     List<RolResponse> getAllRol();
 
-    RolResponse getRolById(Long rolId);
-
-    void updateRol(RolRequest rolRequest);
-
     void deleteRol(Long rolId);
 }
 

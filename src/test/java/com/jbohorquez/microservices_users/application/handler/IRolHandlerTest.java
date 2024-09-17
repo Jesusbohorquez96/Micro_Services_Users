@@ -48,29 +48,6 @@ class IRolHandlerTest {
     }
 
     @Test
-    void testGetRolById() {
-        RolResponse expectedRol = new RolResponse(1L, "Admin", "Administrator role");
-
-        when(rolHandler.getRolById(1L)).thenReturn(expectedRol);
-
-        RolResponse actualRol = rolHandler.getRolById(1L);
-
-        assertEquals(expectedRol.getRolId(), actualRol.getRolId());
-        assertEquals(expectedRol.getRolName(), actualRol.getRolName());
-        assertEquals(expectedRol.getRolDescription(), actualRol.getRolDescription());
-        verify(rolHandler, times(1)).getRolById(1L);
-    }
-
-    @Test
-    void testUpdateRol() {
-        RolRequest rolRequest = new RolRequest("Admin", "Administrator role");
-
-        rolHandler.updateRol(rolRequest);
-
-        verify(rolHandler, times(1)).updateRol(rolRequest);
-    }
-
-    @Test
     void testDeleteRol() {
         Long rolId = 1L;
 

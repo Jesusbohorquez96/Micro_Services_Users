@@ -14,10 +14,6 @@ public interface UserPersistencePort {
 
         List<User> getAllUser();
 
-        User getUserById(Long userId);
-
-        void updateUser(User user);
-
         void deleteUser(Long userId);
 
         Page<User> findAllUser(Pageable pageable);

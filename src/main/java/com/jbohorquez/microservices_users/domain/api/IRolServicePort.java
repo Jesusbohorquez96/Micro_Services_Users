@@ -10,9 +10,5 @@ public interface IRolServicePort {
 
     List<Rol> getAllRol();
 
-    Rol getRolById(Long rolId);
-
-    void updateRol(Rol rol);
-
     void deleteRol(Long rolId);
 }

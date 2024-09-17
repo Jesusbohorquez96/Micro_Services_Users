@@ -9,8 +9,10 @@ import org.mockito.Mock;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 import static org.mockito.MockitoAnnotations.openMocks;
 
@@ -28,18 +30,20 @@ class UsersRestControllerTest {
     }
 
     @Test
-    void testGetFromUserById() {
-        // Arrange
-        UserResponse userResponse = new UserResponse();
-        when(usersHandler.getFromUser(anyLong())).thenReturn(userResponse);
+    void testGetFromUser() {
+        List<UserResponse> mockUsers = new ArrayList<>();
+        UserResponse user1 = new UserResponse();
+        mockUsers.add(user1);
 
-        // Act
-        ResponseEntity<UserResponse> response = usersRestController.getFromUser(1L);
+        when(usersHandler.getFromUser()).thenReturn(mockUsers);
 
-        // Assert
+        ResponseEntity<List<UserResponse>> response = usersRestController.getFromUser();
+
         assertEquals(HttpStatus.OK, response.getStatusCode());
-        assertEquals(userResponse, response.getBody());
-        verify(usersHandler, times(1)).getFromUser(anyLong());
+        assertEquals(1, response.getBody().size());
+        assertEquals(null, response.getBody().get(0).getUserName());
+
+        verify(usersHandler, times(1)).getFromUser();
     }
 
     @Test

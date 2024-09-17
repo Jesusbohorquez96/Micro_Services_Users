@@ -14,16 +14,12 @@ public interface IUserServicePort {
 
     List<User> getAllUser();
 
-    User getUserById(Long userId);
-
-    void updateUser(User user);
-
     void deleteUser(Long userId);
 
     Optional<User> findByEmail(String email);
 
     AuthenticationResponse validateUser(AuthenticationRequest authenticationRequest);
 
-    AuthenticationResponse registerUser(RegisterRequest registerRequest);
+    void registerUser(RegisterRequest registerRequest);
 }
 

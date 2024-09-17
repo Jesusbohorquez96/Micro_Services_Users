@@ -37,18 +37,6 @@ public class RolHandler implements IRolHandler {
     }
 
     @Override
-    public RolResponse getRolById(Long rolId) {
-        Rol rol = rolServicePort.getRolById(rolId);
-        return rolResponseMapper.toResponse(rol);
-    }
-
-    @Override
-    public void updateRol(RolRequest rolRequest) {
-        Rol rol = rolRequestMapper.toRol(rolRequest);
-        rolServicePort.updateRol(rol);
-    }
-
-    @Override
     public void deleteRol(Long rolId) {
         rolServicePort.deleteRol(rolId);
     }

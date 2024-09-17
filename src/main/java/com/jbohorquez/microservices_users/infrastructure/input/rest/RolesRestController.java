@@ -60,31 +60,6 @@ public class RolesRestController {
         }
     }
 
-    @Operation(summary = "Get a rol by ID", description = "Returns a specific rol based on its ID.")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Rol returned successfully"),
-            @ApiResponse(responseCode = "404", description = "Rol not found")
-    })
-    @GetMapping("/{rolId}")
-    @PreAuthorize("hasAnyRole('admin', 'aux_bodega')")
-    public ResponseEntity<RolResponse> getRolById(@PathVariable (name = "rolId") Long rolId) {
-        RolResponse rol = rolHandler.getRolById(rolId);
-        return ResponseEntity.ok(rol);
-    }
-
-    @Operation(summary = "Update a rol", description = "Updates an existing rol in the database.")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "204", description = "Roles actualizada exitosamente"),
-            @ApiResponse(responseCode = "400", description = "Invalid input data"),
-            @ApiResponse(responseCode = "404", description = "Rol not found")
-    })
-    @PutMapping("/")
-    @PreAuthorize("hasAnyRole('admin')")
-    public ResponseEntity<Map<String, String>> updateRol(@Valid @RequestBody RolRequest rolRequest) {
-        rolHandler.updateRol(rolRequest);
-        return ResponseEntity.noContent().build();
-    }
-
     @Operation(summary = "Delete a rol", description = "Delete an existing rol based on its ID.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Rol successfully deleted"),

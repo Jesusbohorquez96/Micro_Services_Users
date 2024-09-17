@@ -37,16 +37,6 @@ public class RolUseCase implements IRolServicePort {
     }
 
     @Override
-    public Rol getRolById(Long rolId) {
-        return rolPersistencePort.getRolById(rolId);
-    }
-
-    @Override
-    public void updateRol(Rol rol) {
-        rolPersistencePort.updateRol(rol);
-    }
-
-    @Override
     public void deleteRol(Long id) {
         rolPersistencePort.deleteRol(id);
     }

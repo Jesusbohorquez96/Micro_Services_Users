@@ -1,7 +1,6 @@
 package com.jbohorquez.microservices_users.application.handler;
 
 import com.jbohorquez.microservices_users.application.dto.*;
-import com.jbohorquez.microservices_users.application.mapper.UserRequestMapper;
 import com.jbohorquez.microservices_users.application.mapper.UserResponseMapper;
 import com.jbohorquez.microservices_users.domain.api.IUserServicePort;
 import com.jbohorquez.microservices_users.domain.model.User;
@@ -17,15 +16,8 @@ import java.util.stream.Collectors;
 @Transactional
 public class UsersHandler implements IUsersHandler {
 
-    private final UserRequestMapper userRequestMapper;
     private final UserResponseMapper userResponseMapper;
     private final IUserServicePort userServicePort;
-
-    @Override
-    public void saveInUser(UserRequest userRequest) {
-        User user = userRequestMapper.toUser(userRequest);
-        userServicePort.saveInUser(user);
-    }
 
     @Override
     public List<UserResponse> getFromUser() {
@@ -33,18 +25,6 @@ public class UsersHandler implements IUsersHandler {
         return users.stream()
                 .map(userResponseMapper::toResponseList)
                 .collect(Collectors.toList());
-    }
-
-    @Override
-    public UserResponse getFromUser(Long userId) {
-        User user = userServicePort.getUserById(userId);
-        return userResponseMapper.toResponseList(user);
-    }
-
-    @Override
-    public void updateInUser(UserRequest userRequest) {
-        User user = userRequestMapper.toUser(userRequest);
-        userServicePort.updateUser(user);
     }
 
     @Override
@@ -58,8 +38,8 @@ public class UsersHandler implements IUsersHandler {
     }
 
     @Override
-    public AuthenticationResponse registerUser(RegisterRequest registerRequest) {
-        return userServicePort.registerUser(registerRequest);
+    public void registerUser(RegisterRequest registerRequest) {
+        userServicePort.registerUser(registerRequest);
     }
 
 }
