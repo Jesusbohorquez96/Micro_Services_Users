@@ -77,6 +77,12 @@ public class ValidationConstants {
     public static final String LICENSE_NAME = "Apache 2.0";
     public static final String LICENSE_URL = "http://springdoc.org";
 
+    public static final String APPDESCRIPTION = "${appdescription}";
+    public static final String APPVERSION = "${appversion}";
+    public static final String MALFORMED_JWT = "Malformed JWT Exception";
+    public static final String JWT_TOKEN = "JWT Token";
+    public static final String INVALID_JWT = "Invalid or malformed JWT token";
+
     public static final String V3_API = "/v3/api-docs/**";
     public static final String SWAGGER_UI = "/swagger-ui.html";
     public static final String SWAGGER_UI_RESOURCES = "/swagger-ui/**";

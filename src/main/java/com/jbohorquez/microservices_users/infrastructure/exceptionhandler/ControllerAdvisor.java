@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import java.util.*;
 import java.util.stream.Collectors;
 
-import static com.jbohorquez.microservices_users.constants.ValidationConstants.MESSAGE;
+import static com.jbohorquez.microservices_users.constants.ValidationConstants.*;
 
 @ControllerAdvice
 public class ControllerAdvisor {
@@ -34,8 +34,8 @@ public class ControllerAdvisor {
 
     @ExceptionHandler(MalformedJwtException.class)
     public ResponseEntity<ErrorResponse> handleMalformedJwtException(MalformedJwtException ex) {
-        logger.error("Malformed JWT Exception: ", ex);
-        ErrorResponse errorResponse = new ErrorResponse("JWT Token", "Invalid or malformed JWT token");
+        logger.error(MALFORMED_JWT, ex);
+        ErrorResponse errorResponse = new ErrorResponse(JWT_TOKEN, INVALID_JWT);
         return new ResponseEntity<>(errorResponse, HttpStatus.FORBIDDEN);
     }
 
@@ -69,7 +69,7 @@ public class ControllerAdvisor {
     @ExceptionHandler(Exception.class)
     public ResponseEntity<Map<String, String>> handleInvalidCredentialsException(MalformedJwtException ex) {
         Map<String, String> body = new HashMap<>();
-        body.put("message", ExceptionResponse.ACCESS_DENIED.getMessage());
+        body.put(MESSAGE, ExceptionResponse.ACCESS_DENIED.getMessage());
 
         return ResponseEntity.status(HttpStatus.FORBIDDEN)
                 .contentType(MediaType.APPLICATION_JSON)
