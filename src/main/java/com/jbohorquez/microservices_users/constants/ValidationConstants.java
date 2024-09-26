@@ -89,6 +89,10 @@ public class ValidationConstants {
     public static final String AUTH = "/auth/**";
     public static final String ALL_API = "/api/**";
 
+    public static final Long ADMIN = 1L;
+    public static final Long AUX_BODEGA = 2L;
+    public static final Long CUSTOMER = 3L;
+
     public static final String JSON = "application/json";
     public static final String ERROR_JWT = "{ \"error\": \"Access denied: Invalid or malformed JWT token\" }";
     public static final String USER_CREATED = "User created successfully";

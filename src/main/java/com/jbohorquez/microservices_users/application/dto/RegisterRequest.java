@@ -4,8 +4,8 @@ import com.jbohorquez.microservices_users.application.validation.Adult;
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
-
 import javax.persistence.Column;
+import javax.persistence.Transient;
 import javax.validation.constraints.*;
 import java.time.LocalDate;
 
@@ -48,6 +48,7 @@ public class RegisterRequest {
     private LocalDate birthdate;
 
     @NotNull(message = ROL_REQUIRED)
+    @Transient
     private Long rol;
 
 }

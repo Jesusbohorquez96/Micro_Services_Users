@@ -12,7 +12,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
+
+import static com.jbohorquez.microservices_users.constants.ValidationConstants.*;
 
 @RestController
 @RequestMapping("/users")
@@ -30,6 +33,51 @@ public class UsersRestController {
     @PreAuthorize("hasAnyRole('admin')")
     public ResponseEntity<List<UserResponse>> getFromUser() {
         return ResponseEntity.ok(usersHandler.getFromUser());
+    }
+
+    @Operation(summary = "Save a new user", description = "Saves a new user to the database.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "User created successfully"),
+            @ApiResponse(responseCode = "400", description = "Invalid input data"),
+            @ApiResponse(responseCode = "409", description = "User already exists"),
+            @ApiResponse(responseCode = "500", description = "Internal server error"),
+    })
+    @PostMapping("/register")
+    @PreAuthorize("hasAnyRole('admin')")
+    public ResponseEntity<String> register(@Valid @RequestBody RegisterRequest registerRequest) {
+        registerRequest.setRol(AUX_BODEGA);
+        usersHandler.registerUser(registerRequest);
+        return ResponseEntity.ok(USER_CREATED);
+    }
+
+    @Operation(summary = "Save a new user", description = "Saves a new user to the database.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "User created successfully"),
+            @ApiResponse(responseCode = "400", description = "Invalid input data"),
+            @ApiResponse(responseCode = "409", description = "User already exists"),
+            @ApiResponse(responseCode = "500", description = "Internal server error"),
+    })
+    @PostMapping("/register_customer")
+    @PreAuthorize("hasAnyRole('aux_bodega')")
+    public ResponseEntity<String> registerCustumer(@Valid @RequestBody RegisterRequest registerRequest) {
+        registerRequest.setRol(CUSTOMER);
+        usersHandler.registerUser(registerRequest);
+        return ResponseEntity.ok(USER_CREATED);
+    }
+
+    @Operation(summary = "Save a new user", description = "Saves a new user to the database.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "User created successfully"),
+            @ApiResponse(responseCode = "400", description = "Invalid input data"),
+            @ApiResponse(responseCode = "409", description = "User already exists"),
+            @ApiResponse(responseCode = "500", description = "Internal server error"),
+    })
+    @PostMapping("/register_admin")
+    @PreAuthorize("hasAnyRole('admin')")
+    public ResponseEntity<String> registerAdmin(@Valid @RequestBody RegisterRequest registerRequest) {
+        registerRequest.setRol(ADMIN);
+        usersHandler.registerUser(registerRequest);
+        return ResponseEntity.ok(USER_CREATED);
     }
 
     @Operation(summary = "Delete a user", description = "Delete an existing user based on its ID.")
