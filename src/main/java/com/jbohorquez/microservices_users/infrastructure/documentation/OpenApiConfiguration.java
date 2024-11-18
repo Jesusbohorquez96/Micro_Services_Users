@@ -13,8 +13,8 @@ import static com.jbohorquez.microservices_users.constants.ValidationConstants.*
 public class OpenApiConfiguration {
 
     @Bean
-    public OpenAPI customOpenApi(@Value(APPDESCRIPTION) String appDescription,
-                                 @Value(APPVERSION) String appVersion){
+    public OpenAPI customOpenApi(@Value(APP_DESCRIPTION) String appDescription,
+                                 @Value(APP_VERSION) String appVersion){
         return new OpenAPI()
                 .components(new Components())
                 .info(new Info()

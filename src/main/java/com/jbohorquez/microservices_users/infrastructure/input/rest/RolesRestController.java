@@ -12,7 +12,6 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -23,9 +22,9 @@ import java.util.Map;
 import static com.jbohorquez.microservices_users.constants.ValidationConstants.*;
 
 @RestController
-@RequestMapping("/roles")
+@RequestMapping(ROLES_API)
 @RequiredArgsConstructor
-@Tag(name = "Roles", description = "API for rol management")
+@Tag(name = TAG_ROLES, description = API_ROLES)
 public class RolesRestController {
 
     private final IRolHandler rolHandler;
@@ -36,7 +35,7 @@ public class RolesRestController {
             @ApiResponse(responseCode = "400", description = "Invalid request")
     })
     @GetMapping
-    @PreAuthorize("hasAnyRole('admin', 'aux_bodega')")
+//    @PreAuthorize(ROL_ADMIN_AUX)
     public ResponseEntity<List<RolResponse>> getAllRol() {
         List<RolResponse> rol = rolHandler.getAllRol();
         return ResponseEntity.ok(rol);
@@ -47,8 +46,8 @@ public class RolesRestController {
             @ApiResponse(responseCode = "201", description = "Rol created successfully"),
             @ApiResponse(responseCode = "400", description = "Invalid input data")
     })
-    @PostMapping("/")
-    @PreAuthorize("hasAnyRole('admin')")
+    @PostMapping(ROOT)
+//    @PreAuthorize(ROL_ADMIN)
     public ResponseEntity<Map<String, String>> saveInRol(@Valid @RequestBody RolRequest rolRequest) {
         try {
             rolHandler.saveInRol(rolRequest);
@@ -65,8 +64,8 @@ public class RolesRestController {
             @ApiResponse(responseCode = "200", description = "Rol successfully deleted"),
             @ApiResponse(responseCode = "404", description = "Rol not found")
     })
-    @DeleteMapping("/{rolId}")
-    @PreAuthorize("hasAnyRole('admin')")
+    @DeleteMapping(ROL_ID)
+//    @PreAuthorize(ROL_ADMIN)
     public ResponseEntity<Map<String, String>> deleteRol(@PathVariable (name = ROL_ID_TARGET) Long rolId) {
         rolHandler.deleteRol(rolId);
         return ResponseEntity.noContent().build();

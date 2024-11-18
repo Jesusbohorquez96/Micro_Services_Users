@@ -47,8 +47,12 @@ public class RegisterRequest {
     @Adult(message = USER_MUST_BE_ADULT)
     private LocalDate birthdate;
 
-    @NotNull(message = ROL_REQUIRED)
     @Transient
     private Long rol;
 
+    public RegisterRequest(String mail, String password123, String roleUser) {
+    }
+
+    public RegisterRequest() {
+    }
 }

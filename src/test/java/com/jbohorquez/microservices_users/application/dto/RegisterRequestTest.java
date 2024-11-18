@@ -11,6 +11,7 @@ import java.time.LocalDate;
 import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static com.jbohorquez.microservices_users.constants.ValidationConstants.*;
 
 class RegisterRequestTest {
 
@@ -45,7 +46,7 @@ class RegisterRequestTest {
 
         Set<ConstraintViolation<RegisterRequest>> violations = validator.validate(registerRequest);
         assertFalse(violations.isEmpty());
-        assertEquals("Name is required", violations.iterator().next().getMessage());
+        assertEquals(NAME_REQUIRED, violations.iterator().next().getMessage());
     }
 
     @Test
@@ -54,7 +55,7 @@ class RegisterRequestTest {
 
         Set<ConstraintViolation<RegisterRequest>> violations = validator.validate(registerRequest);
         assertFalse(violations.isEmpty());
-        assertEquals("Last name is required", violations.iterator().next().getMessage());
+        assertEquals(LAST_NAME_REQUIRED, violations.iterator().next().getMessage());
     }
 
     @Test
@@ -63,10 +64,7 @@ class RegisterRequestTest {
 
         Set<ConstraintViolation<RegisterRequest>> violations = validator.validate(registerRequest);
         assertFalse(violations.isEmpty());
-        assertEquals(
-                "Password must be at least 8 characters long, and must include at least one number, one uppercase letter, one lowercase letter, and one special character",
-                violations.iterator().next().getMessage()
-        );
+        assertEquals(PASSWORD_INVALID, violations.iterator().next().getMessage());
     }
 
     @Test
@@ -75,7 +73,7 @@ class RegisterRequestTest {
 
         Set<ConstraintViolation<RegisterRequest>> violations = validator.validate(registerRequest);
         assertFalse(violations.isEmpty());
-        assertEquals("Email must have a valid format", violations.iterator().next().getMessage());
+        assertEquals(EMAIL_INVALID_FORMAT, violations.iterator().next().getMessage());
     }
 
     @Test
@@ -86,7 +84,7 @@ class RegisterRequestTest {
         assertFalse(violations.isEmpty());
 
         assertTrue(violations.stream()
-                .anyMatch(violation -> "Identity document is required".equals(violation.getMessage())));
+                .anyMatch(violation -> ID_DOCUMENT_REQUIRED.equals(violation.getMessage())));
     }
 
     @Test
@@ -95,15 +93,16 @@ class RegisterRequestTest {
 
         Set<ConstraintViolation<RegisterRequest>> violations = validator.validate(registerRequest);
         assertFalse(violations.isEmpty());
-        assertEquals("Phone number must be a maximum of 13 characters and may include the '+' symbol", violations.iterator().next().getMessage());
+        assertEquals(PHONE_INVALID, violations.iterator().next().getMessage());
     }
 
     @Test
-    void testRolValidation() {
-        registerRequest.setRol(null);
+    void testBirthdateAdultValidation() {
+        registerRequest.setBirthdate(LocalDate.now().minusYears(10));
 
         Set<ConstraintViolation<RegisterRequest>> violations = validator.validate(registerRequest);
         assertFalse(violations.isEmpty());
-        assertEquals("Rol is required", violations.iterator().next().getMessage());
+        assertTrue(violations.stream()
+                .anyMatch(violation -> USER_MUST_BE_ADULT.equals(violation.getMessage())));
     }
 }

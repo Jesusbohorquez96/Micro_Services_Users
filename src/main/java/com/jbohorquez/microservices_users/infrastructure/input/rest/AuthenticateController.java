@@ -3,10 +3,13 @@ package com.jbohorquez.microservices_users.infrastructure.input.rest;
 import com.jbohorquez.microservices_users.application.dto.AuthenticationRequest;
 import com.jbohorquez.microservices_users.application.dto.AuthenticationResponse;
 import com.jbohorquez.microservices_users.application.handler.IUsersHandler;
+import com.jbohorquez.microservices_users.infrastructure.exception.InvalidCredentialsException;
+import com.jbohorquez.microservices_users.infrastructure.exceptionhandler.ExceptionResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -15,10 +18,14 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
 
+import java.util.Collections;
+
+import static com.jbohorquez.microservices_users.constants.ValidationConstants.*;
+
 @RestController
-@RequestMapping("/auth")
+@RequestMapping(AUTH_API)
 @RequiredArgsConstructor
-public class AutenticateController {
+public class AuthenticateController {
 
     private final IUsersHandler usersHandler;
 
@@ -27,8 +34,14 @@ public class AutenticateController {
             @ApiResponse(responseCode = "200", description = "Login successful"),
             @ApiResponse(responseCode = "401", description = "Invalid email or password")
     })
-    @PostMapping("/login")
-    public ResponseEntity<AuthenticationResponse> loginUser(@Valid @RequestBody AuthenticationRequest authenticationRequest) {
-        return ResponseEntity.ok(usersHandler.validateUser(authenticationRequest));
+    @PostMapping(LOGIN)
+    public ResponseEntity<?> loginUser(@Valid @RequestBody AuthenticationRequest authenticationRequest) {
+        try {
+            AuthenticationResponse response = usersHandler.validateUser(authenticationRequest);
+            return ResponseEntity.ok(response);
+        } catch (InvalidCredentialsException e) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                    .body(Collections.singletonMap(MESSAGE, ExceptionResponse.EXIT.getMessage()));
+        }
     }
 }

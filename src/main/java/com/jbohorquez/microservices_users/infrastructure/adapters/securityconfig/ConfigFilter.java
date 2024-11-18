@@ -12,6 +12,9 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.cors.CorsConfiguration;
+
+import java.util.List;
 
 import static com.jbohorquez.microservices_users.constants.ValidationConstants.*;
 
@@ -29,6 +32,15 @@ public class ConfigFilter {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 
         return http
+                .cors().configurationSource(request -> {
+                    CorsConfiguration config = new CorsConfiguration();
+                    config.setAllowedOrigins(List.of(HTTP));
+                    config.setAllowedMethods(List.of(ALLOWED_METHODS));
+                    config.setAllowedHeaders(List.of(ALL));
+                    config.setAllowCredentials(true);
+                    return config;
+                })
+                .and()
                 .csrf()
                 .disable()
                 .authorizeHttpRequests()
@@ -37,7 +49,7 @@ public class ConfigFilter {
                 .antMatchers(SWAGGER_UI).permitAll()
                 .antMatchers(SWAGGER_UI_RESOURCES).permitAll()
                 .antMatchers(ALL_API).authenticated()
-                .anyRequest().authenticated()
+                .anyRequest().permitAll()
                 .and()
                 .exceptionHandling()
                 .authenticationEntryPoint(jwtAuthenticationEntryPoint)

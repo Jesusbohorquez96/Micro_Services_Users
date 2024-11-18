@@ -12,7 +12,8 @@ public enum ExceptionResponse {
     SUCCESSFUL_CREATION("Successful creation"),
     CHARACTER_LIMIT_EXCEEDED("Character limit exceeded"),
     INVALID("Invalid password or email"),
-    ACCESS_DENIED("Access denied: Invalid or malformed JWT token"),;
+    ACCESS_DENIED("Access denied: Invalid or malformed JWT token"),
+    EXIT("Successful operation"),;
 
     private final String message;
     ExceptionResponse(String message) {

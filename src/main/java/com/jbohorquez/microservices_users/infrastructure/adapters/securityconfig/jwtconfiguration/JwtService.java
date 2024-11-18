@@ -30,7 +30,7 @@ public class JwtService {
         return Jwts
                 .builder()
                 .setClaims(extraClaims)
-                .setSubject(userDetails.getEmail())
+                .setSubject(String.valueOf(userDetails.getId()))
                 .setIssuedAt(new Date(System.currentTimeMillis()))
                 .setExpiration(new Date(System.currentTimeMillis() + TIME))
                 .signWith(getSignInKey(), SignatureAlgorithm.HS256)
@@ -54,13 +54,12 @@ public class JwtService {
     public String generate(UserEntity userDetails) {
         Map<String, Object> claims = new HashMap<>();
         claims.put(ROL, userDetails.getRol().getName());
-        claims.put(ID, userDetails.getId());
         return generateToken(claims, userDetails);
     }
 
     public boolean isTokenValid(String token, UserEntity userDetails) {
         final String username = extractUsername(token);
-        return (username.equals(userDetails.getEmail()));
+        return (username.equals(userDetails.getName()));
     }
 
     private Claims extractAllClaims(String token) throws SignatureException {
